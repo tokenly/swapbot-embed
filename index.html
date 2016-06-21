@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+    </head>
+    <body>
+        <div class="container"></div>
+    </body>
+    <script src="/bundle.js"></script>
+    <script>
+        // console.log('showing UI for sample swap');
+        SwapbotAPI.init({clientId: 'hi'});
+        var promise = SwapbotAPI.getSwaps({
+            botId: "7e561993-d7ff-43a9-ba94-df23965ffdef",
+        }, function(swaps) {
+            SwapbotAPI.showSwapUI('.container', swaps[1], {});
+        });
+    </script>
+</html>
