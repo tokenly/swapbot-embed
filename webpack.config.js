@@ -2,7 +2,8 @@ const path = require('path');
 
 const PATHS = {
   app: path.join(__dirname, 'src'),
-  build: path.join(__dirname, 'build')
+  build: path.join(__dirname, 'public/js'),
+  style: path.join(__dirname, 'public/css')
 };
 
 
@@ -13,7 +14,7 @@ module.exports = {
     output: {
         path: PATHS.build,
         publicPath: '/',
-        filename: 'bundle.js'
+        filename: 'swapbotsdk-0.0.1.js'
     },
     module: {
         loaders: [

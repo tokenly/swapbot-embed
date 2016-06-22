@@ -35,6 +35,7 @@
     "babel-preset-stage-1": "^6.1.18",
     "faye": "^1.1.2",
     "lodash": "^3.10.1",
+    "node-static": "^0.7.7",
     "numeral": "^1.5.3",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
