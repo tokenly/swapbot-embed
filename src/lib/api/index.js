@@ -5,7 +5,7 @@ import pockets    from '../util/pockets';
 
 let api = {}
 
-let connectionUrl = 'https://swapbot-stage.tokenly.com';
+let connectionUrl = 'https://swapbot.tokenly.com';
 let clientId = null;
 
 let swapbotApiConnection = null;

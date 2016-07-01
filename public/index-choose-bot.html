@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <script src="/js/swapbotsdk-0.0.1.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <form>
+            <div class="form-group">
+                <label for="ChooseABot">Choose a Bot</label>
+                <select class="form-control" id="ChooseABot">
+                  <option value="">Loading...</option>
+                </select>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="swapbot-interface"></div>
+    <div class="swapbot-interface2"></div>
+
+    <script>
+    SwapbotAPI.init({
+        clientId: 'hi'
+    });
+
+    // load
+    (function($) {
+        $.getJSON('https://swapbot.tokenly.com/api/v1/public/availableswaps?limit=50').then(function(bots) {
+            var botsById = {};
+            for (var i = 0; i < bots.length; i++) {
+                var bot = bots[i].bot;
+                if (botsById[bot.id] == null) {
+                    botsById[bot.id] = {
+                        name: bot.name,
+                        id: bot.id,
+                        count: 1
+                    };
+                } else {
+                    ++botsById[bot.id].count;
+                }
+            }
+
+            // update select
+            $('#ChooseABot').empty().append($('<option />').attr('value', '').text('- Choose One -'));
+            for (var botId in botsById) {
+                if( botsById.hasOwnProperty( botId ) ) {
+                    var bot = botsById[botId];
+                    $('#ChooseABot').append(
+                        $('<option />').attr('value', bot.id).text(bot.name+" ("+bot.count+" swap"+(bot.count == 1 ? '' : 's')+")")
+                    );
+                } 
+            }
+
+            // bind change
+            $('#ChooseABot').on('change', function(e) {
+                var botId = $(this).val();
+                var promise = SwapbotAPI.getSwaps({
+                    botId: botId,
+                }, function(swaps) {
+                    SwapbotAPI.showSwapUI('.swapbot-interface', swaps, {});
+                });
+            });
+        });
+    })(window.jQuery);
+
+
+    </script>
+</body>
+
+</html>

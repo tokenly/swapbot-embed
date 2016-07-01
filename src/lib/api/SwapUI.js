@@ -17,6 +17,16 @@ SwapUI.show = (selectorOrElement, swapObjects, opts) => {
     // resolve the domElement
     let domElement = resolveSelector(selectorOrElement)
 
+    if (domElement == null) {
+        throw new Error("Unable initialize the swap UI because we couldn't find a domElement for the provided selector.");
+    }
+
+    // build a new, empty dom element for the application
+    while (domElement.firstChild) { domElement.removeChild(domElement.firstChild); }
+    let appContainerElement = document.createElement("div");
+    appContainerElement.setAttribute('data-swapbot-embed', '');
+    domElement.appendChild(appContainerElement);
+
     // create the store
     let store = createStoreWithMiddleware(reducers);
 
@@ -27,7 +37,7 @@ SwapUI.show = (selectorOrElement, swapObjects, opts) => {
             <Provider store={store}>
                 <ConnectedSwapUIComponent />
             </Provider>
-            , domElement
+            , appContainerElement
         );
     }
 
@@ -45,6 +55,8 @@ SwapUI.show = (selectorOrElement, swapObjects, opts) => {
 
     // connect the action creators
     quoteBotActionCreator.connectStore(store);
+
+    return appContainerElement;
 }
 
 // ------------------------------------------------------------------------
