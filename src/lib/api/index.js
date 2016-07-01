@@ -1,6 +1,7 @@
 import swapbotApi from '../swapbotApi';
 import SwapObject from './SwapObject';
-import SwapUI from './SwapUI';
+import SwapUI     from './SwapUI';
+import pockets    from '../util/pockets';
 
 let api = {}
 
@@ -17,6 +18,8 @@ api.init = function(options) {
         throw new Error("A clientId is required to connect to the swapbot API.");
     }
     swapbotApiConnection = swapbotApi.connect(connectionUrl)
+
+    pockets.appendPocketsMarkupToPage();
 }
 
 api.getSwaps = function(parameters, callback=null) {
@@ -35,12 +38,22 @@ api.getSwaps = function(parameters, callback=null) {
     });
 };
 
-api.showSwapUI = function(domElement, swapObject, options) {
+api.showSwapUI = function(domElement, swapObjects, options) {
     checkSwapbotConnection();
-    if (!(swapObject instanceof SwapObject)) {
-        throw new Error("You must pass a SwapObject to the showSwapUI method")
+
+    let isValid = false;
+    if (Array.isArray(swapObjects) && (swapObjects[0] instanceof SwapObject)) {
+        isValid = true;
+    } else if (swapObjects instanceof SwapObject) {
+        swapObjects = [swapObjects];
+        isValid = true;
     }
-    SwapUI.show(domElement, swapObject, options);
+
+    if (!isValid) {
+        throw new Error("You must pass SwapObject objects to the showSwapUI method")
+    }
+
+    SwapUI.show(domElement, swapObjects, options);
 };
 
 api.SwapObject = SwapObject;

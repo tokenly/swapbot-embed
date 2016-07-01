@@ -5,13 +5,12 @@ import deepFreeze from '../../node_modules/deep-freeze'
 
 
 describe('RootReducer' , () => {
-    it('sets the swap config on the swap key', () => {
+    it('sets the step on uiState key', () => {
         let stateBefore = {}
-        let action = {type: c.SET_SWAP_AND_BOT, swapConfig: {in: 'BTC', out: 'TOKENLY'}, bot: {name: 'Foo Bot', address: '1xxxxxxxxxx'}};
+        let action = {type: c.UI_GO_TO_STEP, step: 1};
         deepFreeze(action);
         deepFreeze(stateBefore);
         let newState = reducers(stateBefore, action);
-        expect(newState.swapConfig.in).to.equal('BTC');
-        expect(newState.swapConfig.out).to.equal('TOKENLY');
+        expect(newState.uiState.step).to.equal(1);
     })
 });

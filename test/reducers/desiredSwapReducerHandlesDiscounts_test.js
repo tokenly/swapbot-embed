@@ -2,11 +2,11 @@ import { expect }          from '../test_helper';
 import desiredSwapReducer  from '../../src/reducers/desiredSwap'
 import c                   from '../../src/constants/index'
 import deepFreeze          from '../../node_modules/deep-freeze'
-import swapConfigGenerator from '../testHelpers/swapConfigGenerator'
+import swapObjectGenerator from '../testHelpers/swapObjectGenerator'
 
 describe('Desired Swap Reducer with Discounts' , () => {
     it('handles basic rate discount', () => {
-        let stateBefore = dispatchSetSwapAndBotAction();
+        let stateBefore = setup();
         let action = buildSetOutTokenQuantityAction();
         deepFreeze(stateBefore);
         deepFreeze(action);
@@ -16,7 +16,7 @@ describe('Desired Swap Reducer with Discounts' , () => {
     })
 
     it('handles second rate discount', () => {
-        let stateBefore = dispatchSetSwapAndBotAction();
+        let stateBefore = setup();
         let action = buildSetOutTokenQuantityAction({quantity: 20});
         deepFreeze(stateBefore);
         deepFreeze(action);
@@ -37,23 +37,46 @@ function roundToSatoshi(float) {
     return Math.round(float * c.SATOSHI, 10) / c.SATOSHI;
 }
 
-function dispatchSetSwapAndBotAction() {
-    return desiredSwapReducer({}, buildSetSwapAndBotAction());
+
+
+
+function setup() {
+    let state = {};
+    state = dispatchSetSwapObjects(state);
+    state = dispatchSetOutToken(state);
+    return state;
 }
 
-function buildSetOutTokenQuantityAction(overrides={}) {
+function dispatchSetSwapObjects(state={}, configOverrides={}) {
+    return desiredSwapReducer(state, buildSetSwapObjectsAction(configOverrides));
+}
+function dispatchSetOutToken(state={}, token='TOKENLY') {
+    return desiredSwapReducer(state, buildSetOutTokenAction({token: token}));
+}
+
+
+function buildSetOutTokenAction(action={}) {
     return {
-        type: c.INPUT_SET_OUT_TOKEN_QUANTITY,
+        type:  c.INPUT_SET_OUT_TOKEN,
+        token: 'TOKENLY',
+        ...action
+    };
+}
+
+function buildSetOutTokenQuantityAction(action={}) {
+    return {
+        type:     c.INPUT_SET_OUT_TOKEN_QUANTITY,
         quantity: 10,
-        ...overrides
+        ...action
     };
 }
 
-function buildSetSwapAndBotAction() {
+function buildSetSwapObjectsAction(configOverrides={}) {
     return {
-        type: c.SET_SWAP_AND_BOT,
-        bot: { name: 'My Bot', balances: {TOKENLY: 100} },
-        swapConfig: swapConfigGenerator.rateSellConfigWithDiscount()
+        type:        c.SET_POSSIBLE_SWAP_OBJECTS,
+        swapObjects: [swapObjectGenerator.rateSellConfigWithDiscount(configOverrides)],
     };
 }
+
+
 

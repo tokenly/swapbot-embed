@@ -11,11 +11,8 @@ let allConnectedSteps;
 const MasterSwapUI = ({uiState}) => {
     let ActiveStepComponent = allConnectedSteps[uiState.step];
 
-    return <div id="TKSB_ChooseSwapUI">
-        <p>This is the Swapbot UI Container</p>
-        <span>
+    return <div className="TKSB_ChooseSwapUI">
             <ActiveStepComponent />
-        </span>
     </div>
 }
 
@@ -48,16 +45,23 @@ stepConnectors.EnterAmount = () => {
     return {
         mapStateToProps: (state) => {
             return {
-                bot: state.bot,
-                swapConfig: state.swapConfig,
+                swapObjects: state.swapObjects,
                 desiredSwap: state.desiredSwap,
-                uiState: state.uiState,
             }
         },
         mapDispatchToProps: (dispatch) => {
             return {
-                setOutTokenAmount: (amount, bot, swapConfig) => {
-                    dispatch(actions.setOutTokenAmount(amount, bot, swapConfig));
+                setOutToken: (token) => {
+                    dispatch(actions.setOutToken(token));
+                },
+                setOutTokenQuantity: (quantity) => {
+                    dispatch(actions.setOutTokenQuantity(quantity));
+                },
+                setInToken: (token) => {
+                    dispatch(actions.setInToken(token));
+                },
+                setInTokenQuantity: (quantity) => {
+                    dispatch(actions.setInTokenQuantity(quantity));
                 },
                 completeEnterAmountStep: () => {
                     dispatch(actions.completeEnterAmountStep());
@@ -80,6 +84,10 @@ stepConnectors.ConfirmWallet = () => {
                 goBack: () => {
                     dispatch(actions.goToStep('EnterAmount'));
                 },
+
+                launchWindow: (url) => {
+                    window.open(url, 'New Window');
+                }
             };
         },
     }
@@ -88,16 +96,16 @@ stepConnectors.SendPayment = () => {
     return {
         mapStateToProps: (state) => {
             return {
-                bot: state.bot,
-                swapConfig: state.swapConfig,
-                desiredSwap: state.desiredSwap,
+                desiredSwap:   state.desiredSwap,
+                bot:           state.desiredSwap.bot,
+                QRModalActive: state.uiState.QRModalActive,
             }
         },
         mapDispatchToProps: (dispatch) => {
             return {
-                goBack: () => {
-                    dispatch(actions.goToStep('EnterAmount'));
-                },
+                goBack: () => { dispatch(actions.goToStep('EnterAmount')); },
+                showQRModal: () => { dispatch(actions.showQRModal()); },
+                hideQRModal: () => { dispatch(actions.hideQRModal()); },
             };
         },
     }

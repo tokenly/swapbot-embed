@@ -2,11 +2,18 @@ import c from '../constants'
 
 let actions = {};
 
-actions.setChosenSwapConfigAndBot = (swapConfig, bot) => {
+// actions.setChosenSwapConfigAndBot = (swapConfig, bot) => {
+//     return {
+//         type: c.CHOOSE_SWAP_OBJECT,
+//         swapConfig: swapConfig,
+//         bot: bot,
+//     }
+// }
+
+actions.setSwapObjects = (swapObjects) => {
     return {
-        type: c.SET_SWAP_AND_BOT,
-        swapConfig: swapConfig,
-        bot: bot,
+        type: c.SET_POSSIBLE_SWAP_OBJECTS,
+        swapObjects: swapObjects
     }
 }
 
@@ -23,12 +30,29 @@ actions.updateQuote = (newQuote) => {
     }
 }
 
-actions.setOutTokenAmount = (quantity, bot, swapConfig) => {
+actions.setOutToken = (token) => {
+    return {
+        type:  c.INPUT_SET_OUT_TOKEN,
+        token: token,
+    }
+}
+actions.setOutTokenQuantity = (quantity) => {
     return {
         type: c.INPUT_SET_OUT_TOKEN_QUANTITY,
         quantity: quantity,
-        bot: bot,
-        swapConfig: swapConfig
+    }
+}
+
+actions.setInToken = (token) => {
+    return {
+        type:  c.INPUT_SET_IN_TOKEN,
+        token: token,
+    }
+}
+actions.setInTokenQuantity = (quantity) => {
+    return {
+        type: c.INPUT_SET_IN_TOKEN_QUANTITY,
+        quantity: quantity,
     }
 }
 
@@ -49,6 +73,17 @@ actions.goToStep = (step) => {
     return {
         type: c.UI_GO_TO_STEP,
         step
+    }
+}
+
+actions.showQRModal = () => {
+    return {
+        type: c.UI_SHOW_QR_MODAL
+    }
+}
+actions.hideQRModal = () => {
+    return {
+        type: c.UI_HIDE_QR_MODAL
     }
 }
 

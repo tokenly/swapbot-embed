@@ -1,5 +1,6 @@
 const constants = {
-    SET_SWAP_AND_BOT:                     'SET_SWAP_AND_BOT',
+    CHOOSE_SWAP_OBJECT:                   'CHOOSE_SWAP_OBJECT',
+    SET_POSSIBLE_SWAP_OBJECTS:            'SET_POSSIBLE_SWAP_OBJECTS',
     SET_QUOTES:                           'SET_QUOTES',
     UPDATE_QUOTE:                         'UPDATE_QUOTE',
 
@@ -7,7 +8,14 @@ const constants = {
     UI_COMPLETE_ENTER_AMOUNT:             'UI_COMPLETE_ENTER_AMOUNT',
     UI_COMPLETE_WALLET_COMFIRMATION_STEP: 'UI_COMPLETE_WALLET_COMFIRMATION_STEP',
 
+    UI_SHOW_QR_MODAL:                     'UI_SHOW_QR_MODAL',
+    UI_HIDE_QR_MODAL:                     'UI_HIDE_QR_MODAL',
+
     INPUT_SET_OUT_TOKEN_QUANTITY:         'INPUT_SET_OUT_TOKEN_QUANTITY',
+    INPUT_SET_OUT_TOKEN:                  'INPUT_SET_OUT_TOKEN',
+
+    INPUT_SET_IN_TOKEN_QUANTITY:          'INPUT_SET_IN_TOKEN_QUANTITY',
+    INPUT_SET_IN_TOKEN:                   'INPUT_SET_IN_TOKEN',
 
 
 

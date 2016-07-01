@@ -1,6 +1,6 @@
 var static = require('node-static');
 
-let PORT         = process.env.PORT || 8080;
+let PORT         = process.env.PORT         || 8080;
 let CACHE_LENGTH = process.env.CACHE_LENGTH || 3600;
 
 // 

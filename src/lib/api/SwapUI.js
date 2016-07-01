@@ -10,8 +10,7 @@ import quoteBotActionCreator            from '../../actionCreators/quoteBotActio
 
 let SwapUI = {};
 
-SwapUI.show = (selectorOrElement, swapObject, opts) => {
-
+SwapUI.show = (selectorOrElement, swapObjects, opts) => {
     // create the store
     const createStoreWithMiddleware = applyMiddleware()(createStore);
 
@@ -36,9 +35,12 @@ SwapUI.show = (selectorOrElement, swapObject, opts) => {
     store.subscribe(doRender);
     doRender();
 
-    if (swapObject != null) {
-        // update the swap and bot
-        store.dispatch(actions.setChosenSwapConfigAndBot(swapObject.swap, swapObject.bot));
+    if (swapObjects != null && swapObjects.length > 0) {
+        // update the swapObjects
+        store.dispatch(actions.setSwapObjects(swapObjects));
+
+        // choose the first token by default
+        store.dispatch(actions.setOutToken(swapObjects[0].swap.out));
     }
 
     // connect the action creators

@@ -1,0 +1,245 @@
+// env
+$hosturl: "http://127.0.0.1:8080"
+
+// CONTROL
+$font-stack: "SBProximaNova", "HelveticaNeue", Helvetica, Arial, sans-serif
+
+$gray-dark:                 #272a2b
+$gray:                      #9B9B9B
+$gray-light:                #D8DCDE
+$gray-lighter:              #eceeef
+$gray-lightest:             #f7f7f9
+
+$brand-primary:             #0275d8
+$brand-green:               #2ECC71
+$brand-red:                 #FF7857
+
+$background-color:          #F0F1F2
+
+$tablet: "only screen and (min-width : 600px)"
+
+// FONTS
+@font-face
+  font-family: SBProximaNova
+  src: url("#{$hosturl}/fonts/ProximaNova-Regular.otf")
+
+@font-face
+  font-family: SBProximaNova
+  src: url("#{$hosturl}/fonts/ProximaNova-Bold.otf")
+  font-weight: bold
+
+// MIXINS
+@mixin btn($color)
+  background-color: $color
+  color: #fff
+  padding: 14px 40px
+  outline: none
+  border: none
+  text-transform: uppercase
+  font-weight: bold
+  letter-spacing: 1px
+  border-radius: 4px
+  &:hover
+    background-color: lighten($color, 8%)
+    cursor: pointer
+
+@mixin btnInactive($color)
+  background-color: $color
+  color: #fff
+  padding: 14px 40px
+  outline: none
+  border: none
+  text-transform: uppercase
+  font-weight: bold
+  letter-spacing: 1px
+  border-radius: 4px
+
+@mixin flex-module
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+  align-items: center
+  width: 100%
+  margin-bottom: 30px
+  @media #{$tablet}
+    flex-direction: row
+
+@mixin errorPanel
+  background-color: $brand-red
+  color: #fff
+  padding: 7px 20px
+  outline: none
+  border: none
+  font-weight: normal
+  border-radius: 4px
+  margin-bottom: 30px
+
+.swapbot-embed
+  font-family: $font-stack
+  color: $gray-dark
+  max-width: 620px
+  padding: 20px
+  margin: 0 auto
+  margin-bottom: 40px
+  background-color: $background-color
+  position: relative
+  line-height: 1.5
+
+  // TYPOGRAPHY
+  a
+    color: $brand-primary
+    text-decoration: none
+    &:hover
+      color: lighten($brand-primary, 10%)
+  .heading
+    text-align: center
+    font-size: 22px
+    margin-bottom: 1.5em
+    max-width: 500px
+    line-height: 1.3
+  .redeem-text, .review-text
+    color: $gray
+    font-size: 18px
+    text-align: center
+    margin-top: 0
+  .review-text
+    font-size: 24px
+    line-height: 1.3
+  .redeem-text
+    margin-bottom: 30px
+    line-height: 1.4
+
+  .token-text
+    color: $gray-dark
+
+  // CONTENT WRAPPER
+  .embed-content
+    margin: 0 auto
+    padding: 60px 10px
+    max-width: 90%
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+  
+    // CONTENT MODULES 
+    .tokens-container, .buttons-container
+      +flex-module
+
+    // TOKENS MODULE
+    .tokens-container
+      .token-divider
+        margin: 20px 40px
+        color: $gray
+        .arrow-down
+          display: inline
+        .arrow-right
+          display: none
+        @media #{$tablet}
+          .arrow-down
+            display: none
+          .arrow-right
+            display: inline
+          margin: 0 40px
+      .token
+        width: 100%
+        flex-grow: 1.2
+        .token-heading
+          letter-spacing: 1px
+          text-transform: uppercase
+          font-weight: bold
+          font-size: 14px
+          padding-bottom: 2px
+          border-bottom: 2px solid $gray
+          margin-bottom: 10px
+          color: $gray
+        input, select, textarea
+          padding: 4px 0
+          font-size: 18px
+          display: block
+          width: 100%
+          border: none
+          outline: none
+          background-color: transparent
+          border-bottom: 2px solid $gray-light
+          border-radius: 0
+          font-weight: 300
+          letter-spacing: 1px
+          &:not(:last-child)
+            margin-bottom: 10px
+        select
+          text-transform: uppercase
+          -webkit-appearance: initial
+          color: $brand-primary
+
+  // BUTTONS MODULE
+  .buttons-container
+    max-width: 500px
+    >:not(:last-child)
+      margin-bottom: 10px
+      @media #{$tablet}
+        margin-bottom: 0
+    .btn-flex
+      width: 100%
+      flex-grow: 1
+      margin-left: 10px
+      margin-right: 10px
+    &.buttons-pay-container
+      justify-content: space-around 
+  .btn-success
+    +btn($brand-green)
+  .btn-danger
+    +btn($brand-red)
+  .btn-disabled
+    +btnInactive($gray-light)
+  .btn-pockets
+    img
+      float: left
+  .btn-back
+    float: left
+    color: $brand-primary
+    &:hover
+      color: lighten($brand-primary, 10%)
+      cursor: pointer
+  .btn-qrcode
+    +btn($brand-green)
+    width: 156px
+    height: 56px
+    padding: 0
+    i
+      font-size: 44px
+  .button-divider
+    color: $gray
+    font-size: 20px
+
+  // ERROR
+  .TKSB_error
+    +errorPanel()
+
+  // FOOTER
+  .embed-footer
+    color: $gray
+    text-align: right
+
+  // PROGRESS BAR
+  $progress-height: 4px
+  $progress-color: $brand-primary
+  .progress-bar
+    width: 100%
+    height: $progress-height
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    background-color: $gray-light
+    .progress
+      position: absolute
+      top: 0
+      left: 0
+      height: $progress-height
+      background-color: $brand-primary
+
+
+@import "./includes/fontello.scss"
+@import "./includes/modal.scss"
+

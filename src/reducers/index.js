@@ -1,13 +1,11 @@
 import { combineReducers } from 'redux';
-import bot from './bot'
-import swapConfig from './swapConfig'
-import uiState from './uiState'
-import desiredSwap from './desiredSwap'
+import swapObjects         from './swapObjects'
+import uiState             from './uiState'
+import desiredSwap         from './desiredSwap'
 
 
 const rootReducer = combineReducers({
-  bot:         bot,
-  swapConfig:  swapConfig,
+  swapObjects: swapObjects,
   uiState:     uiState,
   desiredSwap: desiredSwap,
 });

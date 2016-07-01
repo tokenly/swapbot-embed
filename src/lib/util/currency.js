@@ -23,11 +23,33 @@ exports.currencyStringToFloat = (value) => {
   return numeral(value).value();
 }
 
+exports.formatInput = function(value) {
+    if (value == null || value.length == 0) { return value; }
+    let formatted = exports.formatCurrency(value, null, '0.[00000000]', false)
+    if (formatted.length == 0) { return value; }
+    return formatted
+}
+
+exports.formatCurrencyAsNumber = function(value) {
+    if ((value == null) || isNaN(value)) {
+        return '0';
+    }
+    return numeral(value).format('0.[00000000]');
+};
+
+
+exports.formatIfValid = function(value, currencyPostfix) {
+    if (value == null || value.length == 0) { return value; }
+    let formatted = exports.formatCurrency(value, currencyPostfix)
+    if (formatted.length == 0) { return value; }
+    return formatted
+}
+
 exports.approximateCurrency = function(value, currencyPostfix) {
     return exports.formatCurrency(value, currencyPostfix);
 }
 
-exports.formatCurrency = function(value, currencyPostfix) {
+exports.formatCurrency = function(value, currencyPostfix, formatString=null, useSatoshisForSmallValues=true) {
     var decimalText, satoshisPrefix, valueText;
     if (currencyPostfix == null) {
         currencyPostfix = '';
@@ -35,8 +57,9 @@ exports.formatCurrency = function(value, currencyPostfix) {
     if ((value == null) || isNaN(value)) {
         return '';
     }
-    decimalText = numeral(value).format('0,0.[00000000]');
-    if (value > 0 && value < 0.0001) {
+    if (formatString == null) { formatString = '0,0.[00000000]'; }
+    decimalText = numeral(value).format(formatString);
+    if (useSatoshisForSmallValues && value > 0 && value < 0.0001) {
         satoshisPrefix = numeral(value * c.SATOSHI).format('0') + ' satoshis';
         valueText = satoshisPrefix + " (" + decimalText + ")";
     } else {
@@ -94,12 +117,6 @@ exports.formatCurrency = function(value, currencyPostfix) {
 // };
 
 
-// exports.formatCurrencyAsNumber = function(value) {
-//     if ((value == null) || isNaN(value)) {
-//         return '0';
-//     }
-//     return numeral(value).format('0.[00000000]');
-// };
 
 // exports.formatFiatCurrency = function(value, currencyPrefix) {
 //     var formattedCurrencyString, prefix;

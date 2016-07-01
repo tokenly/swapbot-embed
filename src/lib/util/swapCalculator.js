@@ -7,9 +7,18 @@ let swapCalculator = {};
 
 // returns {inQuantity, buffer, rawInQuantity, rawBuffer};
 swapCalculator.inQuantitiesFromOutQuantity = function(outQuantity, swapConfig, currentQuotes) {
+    if (outQuantity === '' || outQuantity == null) { return emptyQuantities() }
     return buildInQuantityFromOutQuantity[swapConfig.strategy](outQuantity, swapConfig, currentQuotes);
 };
 
+swapCalculator.outQuantityFromInQuantity = function(inQuantity, swapConfig, currentQuotes) {
+    if (inQuantity === '' || inQuantity == null) { return ''; }
+    var outQuantity = buildOutQuantityFromInQuantity[swapConfig.strategy](inQuantity, swapConfig, currentQuotes);
+    if (outQuantity === NaN) {
+        outQuantity = 0;
+    }
+    return outQuantity;
+};
 
 // ------------------------------------------------------------------------
 
@@ -54,7 +63,7 @@ buildInQuantityFromOutQuantity.fiat = function(outQuantity, swapConfig, currentQ
     if ((outQuantity == null) || isNaN(outQuantity)) {
         return emptyQuantities();
     }
-    fiatRate = buildFiatRateForToken(swapConfig["in"], 'USD', currentQuotes);
+    fiatRate = buildFiatRateForToken(swapConfig.in, 'USD', currentQuotes);
     if (fiatRate == 0 || fiatRate == null) {
         return emptyQuantities();
     }
@@ -64,9 +73,44 @@ buildInQuantityFromOutQuantity.fiat = function(outQuantity, swapConfig, currentQ
     return {quantity: inQuantity, quantityBeforeDiscount: rawInQuantity, buffer, bufferBeforeDiscount: rawBuffer};
 };
 
-let emptyQuantities = () => {
-    return {quantity: 0, quantityBeforeDiscount: 0, buffer: 0, bufferBeforeDiscount: 0};
-}
+// ------------------------------------------------------------------------
+
+let buildOutQuantityFromInQuantity = {};
+
+buildOutQuantityFromInQuantity.rate = function(inQuantity, swapConfig) {
+    var outQuantity;
+    if ((inQuantity == null) || isNaN(inQuantity)) {
+        return '';
+    }
+    outQuantity = Math.floor(swapConfig.rate * inQuantity * c.SATOSHI) / c.SATOSHI;
+    return outQuantity;
+};
+
+buildOutQuantityFromInQuantity.fixed = function(inQuantity, swapConfig) {
+    var multipler, outQuantity;
+    if ((inQuantity == null) || isNaN(inQuantity)) {
+        return '';
+    }
+    multipler = Math.floor(Math.round(inQuantity * c.SATOSHI) / (swapConfig.in_qty * c.SATOSHI));
+    outQuantity = multipler * swapConfig.out_qty;
+    return outQuantity;
+};
+
+buildOutQuantityFromInQuantity.fiat = function(inQuantity, swapConfig, currentQuotes) {
+
+    if ((inQuantity == null) || isNaN(inQuantity) || inQuantity == 0) { return ''; }
+
+    var buffer, fiatRate, inQuantity, rawBuffer, rawInQuantity, ref;
+
+    fiatRate = buildFiatRateForToken(swapConfig.in, 'USD', currentQuotes);
+    if (fiatRate == 0 || fiatRate == null) { return ''; }
+
+    let tokenCost = swapConfig.cost / fiatRate;
+    let outQuantity = inQuantity / tokenCost;
+
+    return outQuantity;
+
+};
 
 // ------------------------------------------------------------------------
 
@@ -75,13 +119,13 @@ let buildInQuantityAndBufferForFiatSwap = function(outQuantity, swapConfig, curr
     if ((outQuantity == null) || isNaN(outQuantity)) {
         return null;
     }
-    fiatRate = buildFiatRateForToken(swapConfig["in"], 'USD', currentQuotes);
+    fiatRate = buildFiatRateForToken(swapConfig.in, 'USD', currentQuotes);
     if (fiatRate == 0 || fiatRate == null) {
         return null;
     }
     tokenCost = swapConfig.cost / fiatRate;
     isDivisible = swapConfig.divisible === '1' || swapConfig.divisible === true;
-    isBTC = swapConfig["in"] === 'BTC';
+    isBTC = swapConfig.in === 'BTC';
     if (isBTC) {
         marketBuffer = 0.02;
         if (isDivisible) {
@@ -112,6 +156,11 @@ let buildFiatRateForToken = function(token, fiat, quotes) {
 };
 
 // ------------------------------------------------------------------------
+
+let emptyQuantities = () => {
+    return {quantity: '', quantityBeforeDiscount: '', buffer: '', bufferBeforeDiscount: ''};
+}
+
 
 
 export default swapCalculator;

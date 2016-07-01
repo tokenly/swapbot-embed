@@ -14,6 +14,11 @@ swapValidator.validateInAmount = function(inAmount, swapConfig) {
 };
 
 swapValidator.validateOutAmount = function(quantity, bot, swapConfig, currentQuotes) {
+    // don't validate an empty string
+    if ((''+quantity).length == 0) {
+        return {isValid: true, validationError: null}
+    }
+
     let botBalance = balanceFromBotAndSwapConfig(bot, swapConfig);
     let validationError = validateOutAmount[swapConfig.strategy](quantity, swapConfig, botBalance, currentQuotes);
     let isValid = (validationError == null);
