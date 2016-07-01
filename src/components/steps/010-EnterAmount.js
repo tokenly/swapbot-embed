@@ -1,5 +1,4 @@
 import React                   from 'react'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import currency                from '../../lib/util/currency'
 
 const EnterAmountComponent = ({swapObjects, desiredSwap, setOutToken, setOutTokenQuantity, setInToken, setInTokenQuantity, completeEnterAmountStep}) => {
