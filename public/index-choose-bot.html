@@ -58,7 +58,7 @@
 
             // bind change
             $('#ChooseABot').on('change', function(e) {
-                $('.swapbot-interface').empty();
+                $('.swapbot-interface').empty().html('<div style="text-align:center;">loading...</div>');
                 var botId = $(this).val();
                 var promise = SwapbotAPI.getSwaps({
                     botId: botId,
