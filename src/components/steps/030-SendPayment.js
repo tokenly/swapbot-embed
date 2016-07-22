@@ -1,8 +1,9 @@
-import React       from 'react'
-import currency    from '../../lib/util/currency'
-import pockets     from '../../lib/util/pockets'
-import indiesquare from '../../lib/util/indiesquare'
-import qrCode      from 'qrcode-npm';
+import React                  from 'react'
+import currency               from '../../lib/util/currency'
+import pockets                from '../../lib/util/pockets'
+import indiesquare            from '../../lib/util/indiesquare'
+import qrCode                 from 'qrcode-npm';
+import SwapbotEmbedFooterLink from '../includes/SwapbotEmbedFooterLink'
 
 const SendPaymentComponent = ({desiredSwap, QRModalActive, bot, showQRModal, hideQRModal, goBack}) => {
     let paymentButtonLabel = `Swapbot ${bot.name} for ${currency.formatCurrency(desiredSwap.out.quantity, desiredSwap.out.token)}`;
@@ -42,7 +43,7 @@ const SendPaymentComponent = ({desiredSwap, QRModalActive, bot, showQRModal, hid
         </div>
         <div className="embed-footer">
             <a onClick={() => { goBack(); }} className="btn-back">Go Back</a>
-            <span> a <a href="#">swapbot</a> powered by <a href="#">tokenly</a></span>
+            <SwapbotEmbedFooterLink />
         </div>
 
         { (QRModalActive) ? 

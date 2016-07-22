@@ -1,4 +1,5 @@
-import React from 'react'
+import React                  from 'react'
+import SwapbotEmbedFooterLink from '../includes/SwapbotEmbedFooterLink'
 
 const ConfirmWalletComponent = ({goBack, launchWindow, completeWalletConfirmationStep}) => {
     return <div className="swapbot-embed">
@@ -18,7 +19,7 @@ const ConfirmWalletComponent = ({goBack, launchWindow, completeWalletConfirmatio
             </div>
             <div className="embed-footer">
                 <a onClick={() => { goBack(); }} href="#back" className="btn-back">Go Back</a>
-                a <a href="#">swapbot</a> powered by <a target="_blank" href="https://tokenly.com">tokenly</a>
+                <SwapbotEmbedFooterLink />
             </div>
         </div>
 }

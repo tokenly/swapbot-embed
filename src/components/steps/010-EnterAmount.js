@@ -1,5 +1,7 @@
-import React                   from 'react'
-import currency                from '../../lib/util/currency'
+import React                  from 'react'
+import currency               from '../../lib/util/currency'
+import SwapbotEmbedFooterLink from '../includes/SwapbotEmbedFooterLink'
+
 
 const EnterAmountComponent = ({swapObjects, desiredSwap, setOutToken, setOutTokenQuantity, setInToken, setInTokenQuantity, completeEnterAmountStep}) => {
     // console.log('EnterAmountComponent desiredSwap.out.token=', desiredSwap.out.token);
@@ -60,9 +62,10 @@ const EnterAmountComponent = ({swapObjects, desiredSwap, setOutToken, setOutToke
 
             <button className={ isComplete ? 'btn-success' : 'btn-disabled' } onClick={completeIfValid}>Begin Swap</button>
         </div>
-        <div className="embed-footer">
-            a <a href="#">swapbot</a> powered by <a target="_blank" href="https://tokenly.com">tokenly</a>
-        </div>
+            <div className="embed-footer">
+                <SwapbotEmbedFooterLink />
+            </div>
+        
     </div>
 
 
