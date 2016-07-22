@@ -40,6 +40,36 @@ describe('swapbotApi' , () => {
         httpRequest.reset();
     });
 
+    it('transforms an array of inToken to a comma separated list', () => {
+        let queryParams = {clientId: 'client0001', inToken: ['BTC','XCP']};
+        let expectedQueryParams = {clientId: 'client0001', inToken: 'BTC,XCP'};
+        swapbotConnection.loadSwaps(queryParams);
+        sinon.assert.calledWith(httpRequest, 'GET', 'http://foo.bar/api/v1/public/availableswaps', expectedQueryParams);
+        httpRequest.reset();
+
+        queryParams = {clientId: 'client0001', inToken: ['BTC']};
+        expectedQueryParams = {clientId: 'client0001', inToken: 'BTC'};
+        swapbotConnection.loadSwaps(queryParams);
+        sinon.assert.calledWith(httpRequest, 'GET', 'http://foo.bar/api/v1/public/availableswaps', expectedQueryParams);
+        httpRequest.reset();
+    });
+
+    it('transforms an array of outToken to a comma separated list', () => {
+        let queryParams = {clientId: 'client0001', outToken: ['FOOCOIN','BARCOIN']};
+        let expectedQueryParams = {clientId: 'client0001', outToken: 'FOOCOIN,BARCOIN'};
+        swapbotConnection.loadSwaps(queryParams);
+        sinon.assert.calledWith(httpRequest, 'GET', 'http://foo.bar/api/v1/public/availableswaps', expectedQueryParams);
+        httpRequest.reset();
+    });
+
+    it('transforms an array of inToken and outToken to a comma separated list', () => {
+        let queryParams = {clientId: 'client0001', outToken: ['FOOCOIN','BARCOIN'], inToken: ['BTC','XCP']};
+        let expectedQueryParams = {clientId: 'client0001', outToken: 'FOOCOIN,BARCOIN', inToken: 'BTC,XCP'};
+        swapbotConnection.loadSwaps(queryParams);
+        sinon.assert.calledWith(httpRequest, 'GET', 'http://foo.bar/api/v1/public/availableswaps', expectedQueryParams);
+        httpRequest.reset();
+    });
+
     it('does not pass an invalid query var', () => {
         swapbotConnection.loadSwaps({iAmSoInvalid: 'foo'});
         sinon.assert.calledWith(httpRequest, 'GET', 'http://foo.bar/api/v1/public/availableswaps', {});

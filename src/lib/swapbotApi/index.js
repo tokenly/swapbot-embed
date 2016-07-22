@@ -12,12 +12,15 @@ swapbotApi.connect = function(connectionUrl) {
     connection.loadSwaps = function(parameters) {
         let filteredParameters = {}
         parameters = parameters || {};
+
         for (var allowedOpt of ['clientId', 'inToken','outToken','sort','userName','botId']) {
             if (parameters[allowedOpt] != null) {
                 let value = parameters[allowedOpt];
-                if (allowedOpt == 'botId' && value && Array === value.constructor) {
+
+                if (isArrayableParam(allowedOpt) && value && Array === value.constructor) {
                     value = value.join(',');
                 }
+
                 filteredParameters[allowedOpt] = value;
             }
         }
@@ -59,5 +62,17 @@ swapbotApi.parseAPIResponse = function(res) {
     // console.log('parseAPIResponse res.body:'+res);
     return res.body;
 };
+
+// ------------------------------------------------------------------------
+
+const arrayable = {
+    botId:    true,
+    inToken:  true,
+    outToken: true
+}
+const isArrayableParam = (param) => { return arrayable[param] != null; }
+
+
+// ------------------------------------------------------------------------
 
 export default swapbotApi;
