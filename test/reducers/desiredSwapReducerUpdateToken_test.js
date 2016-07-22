@@ -34,7 +34,7 @@ describe('Desired Swap Reducer Token Change' , () => {
         expect(newState.isValid).to.be.true
     })
 
-    it('chooses the first out token when in token is set', () => {
+    it('chooses the first out token available when choosing a new in token with no corresponding out token', () => {
         let swapObjects = [
             swapObjectGenerator.alpha({in: 'XCP', rate: 10}),
             swapObjectGenerator.beta({in: 'BTC', rate: 10}),
@@ -52,6 +52,24 @@ describe('Desired Swap Reducer Token Change' , () => {
         expect(newState.in.quantity).to.equal('')
         expect(newState.validationError).to.be.null
         expect(newState.isValid).to.be.true
+    })
+
+    it('keeps the chosen out token when a new in token is set', () => {
+        let stateBefore = desiredSwapReducer({}, {type: c.SET_POSSIBLE_SWAP_OBJECTS, swapObjects: swapObjectGenerator.alphaBetaWithXCP()})
+        // console.log('stateBefore.swapObjects', stateBefore.swapObjects);
+
+        // select beta to purchase (out)
+        let workingState = desiredSwapReducer(stateBefore, buildSetOutTokenAction({token: 'BETA'}));
+
+        // select xcp to pay with (in)
+        workingState = desiredSwapReducer(workingState, buildSetInTokenAction({token: 'XCP'}));
+        // console.log('workingState', workingState);
+
+        // out token should still be BETA
+        expect(workingState.isValid).to.be.true
+        expect(workingState.validationError).to.be.null
+        expect(workingState.out.token).to.equal('BETA')
+        expect(workingState.in.token).to.equal('XCP')
     })
 
 });

@@ -217,20 +217,25 @@ function adjustStateForNewInToken(state, newInToken) {
     }
 
     let oldOutToken = state.out.token;
+    // console.log('oldOutToken:', oldOutToken);
     let newOutToken = null;
     for (var swapObject of state.swapObjects) {
-        if (swapObject.swap.out == newOutToken) {
-            // if exact match, then choose it
-            if (newOutToken == oldOutToken) {
+        // console.log('swapObject.swap.out is ', swapObject.swap.out);
+        if (swapObject.swap.in == newInToken) {
+            if (swapObject.swap.out == oldOutToken) {
+                // if exact match, then choose it
                 newOutToken = oldOutToken;
+                // console.log('kept oldOutToken', oldOutToken);
                 break;
             }
 
+            // default to the first swap token available
             if (newOutToken == null) {
                 newOutToken = swapObject.swap.out;
             }
         }
     }
+    // console.log('chose newOutToken', newOutToken);
 
     return {
             ...state,
