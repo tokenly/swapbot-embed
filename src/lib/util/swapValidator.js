@@ -39,7 +39,7 @@ swapValidator.validateOutAmount = function(quantity, bot, swapConfig, currentQuo
 
 function balanceFromBotAndSwapConfig(bot, swapConfig) {
     let asset = (swapConfig && swapConfig.out) ? swapConfig.out : '';
-    return (bot.balances && bot.balances[asset]) ? bot.balances[asset] : 0;
+    return (bot.balances && bot.balances[asset]) ? parseFloat(bot.balances[asset]) : 0;
 }
 
 // ------------------------------------------------------------------------
