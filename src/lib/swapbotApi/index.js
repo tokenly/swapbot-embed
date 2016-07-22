@@ -14,7 +14,11 @@ swapbotApi.connect = function(connectionUrl) {
         parameters = parameters || {};
         for (var allowedOpt of ['clientId', 'inToken','outToken','sort','userName','botId']) {
             if (parameters[allowedOpt] != null) {
-                filteredParameters[allowedOpt] = parameters[allowedOpt];
+                let value = parameters[allowedOpt];
+                if (allowedOpt == 'botId' && value && Array === value.constructor) {
+                    value = value.join(',');
+                }
+                filteredParameters[allowedOpt] = value;
             }
         }
         return swapbotApi.sendRequest(apiOpts, 'GET', '/public/availableswaps', filteredParameters);

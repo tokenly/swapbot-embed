@@ -32,6 +32,14 @@ describe('swapbotApi' , () => {
         }
     });
 
+    it('transforms an array of botId to a comma separated list', () => {
+        let queryParams = {clientId: 'client0001', botId: ['bot001','bot002']};
+        let expectedQueryParams = {clientId: 'client0001', botId: 'bot001,bot002'};
+        swapbotConnection.loadSwaps(queryParams);
+        sinon.assert.calledWith(httpRequest, 'GET', 'http://foo.bar/api/v1/public/availableswaps', expectedQueryParams);
+        httpRequest.reset();
+    });
+
     it('does not pass an invalid query var', () => {
         swapbotConnection.loadSwaps({iAmSoInvalid: 'foo'});
         sinon.assert.calledWith(httpRequest, 'GET', 'http://foo.bar/api/v1/public/availableswaps', {});
