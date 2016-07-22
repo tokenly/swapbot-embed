@@ -98,7 +98,8 @@ let recalculateSwapValues = function(state, outToken=null, outQuantity=null, inT
     // determine direction
     let RECALC_IN=0, RECALC_OUT=1;
     let recalcDirection = RECALC_IN;
-    if (inToken != null || inQuantity != null) { recalcDirection = RECALC_OUT; }
+    // if (inToken != null || inQuantity != null) { recalcDirection = RECALC_OUT; }
+    if (inQuantity != null) { recalcDirection = RECALC_OUT; }
     // console.log('recalcDirection: '+(recalcDirection == RECALC_IN ? 'RECALC_IN' : 'RECALC_OUT'));
 
     // set defaults
@@ -132,6 +133,7 @@ let recalculateSwapValues = function(state, outToken=null, outQuantity=null, inT
 
         let outQuantityToValidate = outQuantity;
         if (recalcDirection == RECALC_IN) {
+            // console.log('using RECALC_IN');
             let inQuantities = swapCalculator.inQuantitiesFromOutQuantity(outQuantity, swapObject.swap, state.quotes)
             newState.in = {
                 ...newState.in,
@@ -140,6 +142,7 @@ let recalculateSwapValues = function(state, outToken=null, outQuantity=null, inT
                 quantityBeforeDiscount: currency.formatInput(inQuantities.quantityBeforeDiscount),
             }
         } else if (recalcDirection == RECALC_OUT) {
+            // console.log('using RECALC_OUT');
             // calculate the new out quantity
             outQuantityToValidate = swapCalculator.outQuantityFromInQuantity(inQuantity, swapObject.swap, state.quotes);
             newState.out = {
@@ -240,7 +243,7 @@ function adjustStateForNewInToken(state, newInToken) {
     return {
             ...state,
             out: {
-                ...state.in,
+                ...state.out,
                 token: newOutToken,
             },
         }
@@ -252,7 +255,7 @@ function adjustStateForNewInQuantity(state, newInQuantity) {
     }
 
     let newOutQuantity = swapCalculator.outQuantityFromInQuantity(newInQuantity, state.swapConfig)
-    console.log('newInQuantity = ',newInQuantity, 'newOutQuantity = ',newOutQuantity);
+    // console.log('newInQuantity = ',newInQuantity, 'newOutQuantity = ',newOutQuantity);
 
     return {
             ...state,

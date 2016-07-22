@@ -63,7 +63,6 @@ describe('Desired Swap Reducer Token Change' , () => {
 
         // select xcp to pay with (in)
         workingState = desiredSwapReducer(workingState, buildSetInTokenAction({token: 'XCP'}));
-        // console.log('workingState', workingState);
 
         // out token should still be BETA
         expect(workingState.isValid).to.be.true

@@ -4,6 +4,7 @@ import c                   from '../../src/constants/index'
 import deepFreeze          from '../../node_modules/deep-freeze'
 import swapObjectGenerator from '../testHelpers/swapObjectGenerator'
 import botGenerator        from '../testHelpers/botGenerator'
+import stateChecker        from '../testHelpers/stateChecker'
 
 describe('Desired Swap Reducer Quantity Change' , () => {
     it('sets the in quantity from out quantity', () => {
@@ -48,6 +49,34 @@ describe('Desired Swap Reducer Quantity Change' , () => {
     })
 
 
+    it('changes the in quantity when the in token is changed', () => {
+        let swapObjects = [
+            swapObjectGenerator.alpha({in: 'BTC', rate: 50}),
+            swapObjectGenerator.alpha({in: 'XCP', rate: 5}),
+            swapObjectGenerator.beta( {in: 'BTC', rate: 10}),
+            swapObjectGenerator.beta( {in: 'XCP', rate: 1}),
+        ]
+        let stateBefore = desiredSwapReducer({}, {type: c.SET_POSSIBLE_SWAP_OBJECTS, swapObjects: swapObjects})
+
+        // select beta to purchase (out)
+        let workingState = desiredSwapReducer(stateBefore, buildSetOutTokenAction({token: 'ALPHA'}));
+
+        // select BTC to pay with (in)
+        workingState = desiredSwapReducer(workingState, buildSetInTokenAction({token: 'BTC'}));
+
+        // select quantity of 1 beta to purchase (out)
+        workingState = desiredSwapReducer(workingState, buildSetOutTokenQuantityAction({quantity: 1}));
+
+        // state should be an 1 ALPHA out for 0.02 BTC in
+        stateChecker.checkSwap(workingState, [1, 'ALPHA', '0.02', 'BTC']);
+
+        // now change the token to pay with (in)
+        console.log('setting new in token');
+        workingState = desiredSwapReducer(workingState, buildSetInTokenAction({token: 'XCP'}));
+
+        // the quantity to pay (in) with should change
+        stateChecker.checkSwap(workingState, [1, 'ALPHA', '0.2', 'XCP']);
+    })
 
 });
 
