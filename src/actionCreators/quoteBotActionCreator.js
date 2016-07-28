@@ -10,7 +10,6 @@ let quote = {
         avg: 500
     }
 };
-let fakeNumber = 500;
 exports.connectStore = (store) => {
     // load from API
     let connectionUrl = window.QUOTEBOT_CONNECTION_URL || 'https://quotebot.tokenly.com';

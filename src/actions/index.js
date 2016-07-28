@@ -69,6 +69,12 @@ actions.completeWalletConfirmationStep = () => {
     }
 }
 
+actions.completeSendPaymentStep = () => {
+    return {
+        type: c.UI_COMPLETE_SEND_PAYMENT_STEP
+    }
+}
+
 actions.goToStep = (step) => {
     return {
         type: c.UI_GO_TO_STEP,
@@ -84,6 +90,41 @@ actions.showQRModal = () => {
 actions.hideQRModal = () => {
     return {
         type: c.UI_HIDE_QR_MODAL
+    }
+}
+
+// ------------------------------------------------------------------------
+// swapstream
+
+actions.setDesiredSwapstreamSwap = (desiredSwap) => {
+    return {
+        type: c.SWAPSTREAM_SET_DESIRED_SWAP,
+        desiredSwap,
+    }
+}
+actions.clearDesiredSwapstreamSwap = () => {
+    return {
+        type: c.SWAPSTREAM_CLEAR_DESIRED_SWAP
+    }
+}
+
+actions.handleSwapstreamEvent = (event) => {
+    return {
+        type: c.SWAPSTREAM_EVENT,
+        event
+    }
+}
+
+actions.swapstreamTimeHeartbeat = () => {
+    return {
+        type: c.SWAPSTREAM_TIME_HEARTBEAT,
+    }
+}
+
+actions.chooseMySwap = (swap) => {
+    return {
+        type: c.CHOOSE_MY_SWAP,
+        swap
     }
 }
 

@@ -8,7 +8,7 @@ let api = {}
 let connectionUrl = 'https://swapbot.tokenly.com';
 let clientId = null;
 
-let swapbotApiConnection = null;
+let swapbotApiConnected = false;
 
 api.init = function(options) {
     options = options || {};
@@ -17,14 +17,15 @@ api.init = function(options) {
     if (clientId == null) {
         throw new Error("A clientId is required to connect to the swapbot API.");
     }
-    swapbotApiConnection = swapbotApi.connect(connectionUrl)
+    swapbotApi.connect(connectionUrl)
+    swapbotApiConnected = true;
 
     pockets.appendPocketsMarkupToPage();
 }
 
 api.getSwaps = function(parameters, callback=null) {
     checkSwapbotConnection();
-    return swapbotApiConnection.loadSwaps(parameters).then((rawSwapObjects) => {
+    return swapbotApi.loadSwaps(parameters).then((rawSwapObjects) => {
         let out = [];
         for (var rawSwapObject of rawSwapObjects) {
             out.push(new SwapObject(rawSwapObject));
@@ -59,7 +60,7 @@ api.showSwapUI = function(domElement, swapObjects, options) {
 api.SwapObject = SwapObject;
 
 function checkSwapbotConnection() {
-    if (swapbotApiConnection == null) {
+    if (swapbotApiConnected == false) {
         throw new Error("Initialize the SwapbotAPI with SwapbotAPI.init() before calling this method");
     }
 }

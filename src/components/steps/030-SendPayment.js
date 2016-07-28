@@ -4,6 +4,7 @@ import pockets                from '../../lib/util/pockets'
 import indiesquare            from '../../lib/util/indiesquare'
 import qrCode                 from 'qrcode-npm';
 import SwapbotEmbedFooterLink from '../includes/SwapbotEmbedFooterLink'
+import ShowMatchedSwaps       from '../includes/ShowMatchedSwaps'
 
 const SendPaymentComponent = ({desiredSwap, QRModalActive, bot, showQRModal, hideQRModal, goBack}) => {
     let paymentButtonLabel = `Swapbot ${bot.name} for ${currency.formatCurrency(desiredSwap.out.quantity, desiredSwap.out.token)}`;
@@ -41,6 +42,9 @@ const SendPaymentComponent = ({desiredSwap, QRModalActive, bot, showQRModal, hid
                 <button className="btn-qrcode" onClick={ showQRModal }><i className="icon-qrcode"></i></button>
             </div>
         </div>
+
+        <ShowMatchedSwaps />
+
         <div className="embed-footer">
             <a onClick={() => { goBack(); }} className="btn-back">Go Back</a>
             <SwapbotEmbedFooterLink />

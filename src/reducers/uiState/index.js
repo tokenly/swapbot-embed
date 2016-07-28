@@ -25,10 +25,10 @@ const uiStateReducer = (state=null, action) => {
         }
     }
 
-    if (action.type == c.UI_COMPLETE_WALLET_COMFIRMATION_STEP) {
+    if (action.type == c.UI_COMPLETE_SEND_PAYMENT_STEP) {
         return {
             ...state,
-            step: 'SendPayment',
+            step: 'WatchProgress',
         }
     }
 

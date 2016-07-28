@@ -1,13 +1,20 @@
-import swapValidator    from '../../lib/util/swapValidator'
-import swapCalculator   from '../../lib/util/swapCalculator'
-import currency         from '../../lib/util/currency'
-import c                from '../../constants'
-import swapObjectPicker from './swapObjectPicker'
+import swapValidator             from '../../lib/util/swapValidator'
+import swapCalculator            from '../../lib/util/swapCalculator'
+import currency                  from '../../lib/util/currency'
+import c                         from '../../constants'
+import swapObjectPicker          from './swapObjectPicker'
 
 const desiredSwapReducer = (state=null, action) => {
     if (state == null || state.in == null) { state = buildDefaultDesiredSwap(); }
 
+    // do the desiredSwap changes
+    let newState = swapReducer(state, action);
 
+    return newState;
+}
+
+
+const swapReducer = (state=null, action) => {
     if (action.type == c.SET_POSSIBLE_SWAP_OBJECTS) {
         // set the new swap objects
         return {
@@ -70,6 +77,7 @@ const desiredSwapReducer = (state=null, action) => {
         }
         return recalculateSwapValues(newState);
     }
+
 
 
     return state;

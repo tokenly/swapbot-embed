@@ -6,13 +6,16 @@ import actions                          from '../../actions';
 import MasterSwapUIComponent            from '../../components/masterSwapUI';
 import reducers                         from '../../reducers';
 import quoteBotActionCreator            from '../../actionCreators/quoteBotActionCreator'
+import logger                           from '../../middleware/logger'
+import swapstream                       from '../../middleware/swapstream'
+
 
 
 let SwapUI = {};
 
 SwapUI.show = (selectorOrElement, swapObjects, opts) => {
     // create the store
-    const createStoreWithMiddleware = applyMiddleware()(createStore);
+    // const createStoreWithMiddleware = applyMiddleware()(createStore);
 
     // resolve the domElement
     let domElement = resolveSelector(selectorOrElement)
@@ -28,7 +31,8 @@ SwapUI.show = (selectorOrElement, swapObjects, opts) => {
     domElement.appendChild(appContainerElement);
 
     // create the store
-    let store = createStoreWithMiddleware(reducers);
+    // let store = createStoreWithMiddleware(reducers);
+    let store = createStore(reducers, applyMiddleware(swapstream))
 
     let ConnectedSwapUIComponent = connectMasterSwapUIComponent(MasterSwapUIComponent);
 
@@ -70,16 +74,7 @@ function connectMasterSwapUIComponent(MasterSwapUIComponent) {
         }
     }
 
-    let mapDispatchToProps = (dispatch) => {
-        return {
-            // onChangeInTokenClick: (newInToken) => {
-            //     let action = debugSetInToken(newInToken)
-            //     dispatch(debugSetInToken(newInToken))
-            // }
-        }
-    }
-
-    return connect(mapStateToProps, mapDispatchToProps)(MasterSwapUIComponent);
+    return connect(mapStateToProps)(MasterSwapUIComponent);
 }
 
 function resolveSelector(selectorOrElement) {

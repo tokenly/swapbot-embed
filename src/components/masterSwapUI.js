@@ -12,7 +12,7 @@ const MasterSwapUI = ({uiState}) => {
     let ActiveStepComponent = allConnectedSteps[uiState.step];
 
     return <div className="TKSB_ChooseSwapUI">
-            <ActiveStepComponent />
+        <ActiveStepComponent />
     </div>
 }
 
@@ -80,9 +80,13 @@ stepConnectors.ConfirmWallet = () => {
             return {
                 completeWalletConfirmationStep: () => {
                     dispatch(actions.completeWalletConfirmationStep());
+
+                    // start monitoring swap events
                 },
                 goBack: () => {
                     dispatch(actions.goToStep('EnterAmount'));
+
+                    // stop monitoring swap events
                 },
 
                 launchWindow: (url) => {
@@ -106,6 +110,22 @@ stepConnectors.SendPayment = () => {
                 goBack: () => { dispatch(actions.goToStep('EnterAmount')); },
                 showQRModal: () => { dispatch(actions.showQRModal()); },
                 hideQRModal: () => { dispatch(actions.hideQRModal()); },
+            };
+        },
+    }
+};
+stepConnectors.WatchProgress = () => {
+    return {
+        mapStateToProps: (state) => {
+            return {
+                desiredSwap: state.desiredSwap,
+                swap:        state.matchedSwap.matchedSwap,
+                bot:         state.desiredSwap.bot,
+            }
+        },
+        mapDispatchToProps: (dispatch) => {
+            return {
+                goBack: () => { dispatch(actions.goToStep('SendPayment')); },
             };
         },
     }

@@ -49,7 +49,7 @@ exports.approximateCurrency = function(value, currencyPostfix) {
     return exports.formatCurrency(value, currencyPostfix);
 }
 
-exports.formatCurrency = function(value, currencyPostfix, formatString=null, useSatoshisForSmallValues=true) {
+exports.formatCurrency = function(value, currencyPostfix=null, formatString=null, useSatoshisForSmallValues=true) {
     var decimalText, satoshisPrefix, valueText;
     if (currencyPostfix == null) {
         currencyPostfix = '';
