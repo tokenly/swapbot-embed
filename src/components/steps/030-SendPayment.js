@@ -41,9 +41,9 @@ const SendPaymentComponent = ({desiredSwap, QRModalActive, bot, showQRModal, hid
                 <div className="button-divider">or</div>
                 <button className="btn-qrcode" onClick={ showQRModal }><i className="icon-qrcode"></i></button>
             </div>
-        </div>
 
-        <ShowMatchedSwaps />
+            <ShowMatchedSwaps />
+        </div>
 
         <div className="embed-footer">
             <a onClick={() => { goBack(); }} className="btn-back">Go Back</a>

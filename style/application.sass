@@ -60,7 +60,7 @@ $tablet: "only screen and (min-width : 600px)"
   justify-content: space-between
   align-items: center
   width: 100%
-  margin-bottom: 30px
+  margin: 0 auto 30px
   @media #{$tablet}
     flex-direction: row
 
@@ -241,29 +241,54 @@ $tablet: "only screen and (min-width : 600px)"
 
   // MATCHED SWAPS
   .matched-swap-header, .unmatched-swap-header, 
-    font-weight: bold
     text-align: center
+
+  .unmatched-swap-text
+    display: inline-block
+    text-transform: uppercase
+    font-weight: bold
+    letter-spacing: 1px
+
   .matched-swap
+    .matched-swap--heading
+      border-bottom: 2px solid $gray
+      padding-bottom: 2px
+      margin-bottom: 10px
     .title
-      font-weight: 800
-      color: #444;
+      color: $gray
+      font-weight: bold
+      letter-spacing: 1px
+      text-transform: uppercase
     .time
       float: right
-      color: #ccc
+      color: $gray
+    .msg
+      color: $gray-dark
+      font-size: 18px
+      margin-bottom: 20px
+    .confirmations
+      color: $gray-dark
+      margin-bottom: 20px
+
 
   .matched-swaps-list
     position: relative
+    margin-top: 15px
+    max-width: 500px
     .matched-swap
-      border-top: 1px solid black
-      border-top: 1px solid black
       margin-top: 24px
       margin-bottom: 24px
 
     .more-swaps
-      background-color: #b0b0b0
-      color: #e8e8e8
+      color: $gray
+      font-weight: bold
+      letter-spacing: 1px
       text-align: center
-      margin-bottom: 16px
+      text-transform: uppercase
+      &::before
+        display: block
+        letter-spacing: 3px
+        content: '. . .'
 
   // swaplistitem CSS transitions
   .swaplistitem-enter
@@ -282,4 +307,5 @@ $tablet: "only screen and (min-width : 600px)"
 
 @import "./includes/fontello.scss"
 @import "./includes/modal.scss"
+@import "./includes/cubeload.scss"
 
