@@ -24,6 +24,7 @@ const constants = {
     SWAPSTREAM_TIME_HEARTBEAT:            'SWAPSTREAM_TIME_HEARTBEAT',
 
     CHOOSE_MY_SWAP:                       'CHOOSE_MY_SWAP',
+    IGNORE_SWAP:                          'IGNORE_SWAP',
 
 
     // ------------------------------------------------------------------------

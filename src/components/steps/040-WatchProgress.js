@@ -4,8 +4,6 @@ import SwapbotEmbedFooterLink from '../includes/SwapbotEmbedFooterLink'
 import pluralize              from 'pluralize'
 
 const WatchProgressComponent = ({desiredSwap, bot, swap, goBack}) => {
-    console.log('WatchProgressComponent swap.isComplete', swap.isComplete);
-
     return <div className="swapbot-embed">
         <div className="progress-bar">
             <div className="progress" data-progress="100%" style={ {width: '100%'} }></div>

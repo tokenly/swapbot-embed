@@ -252,11 +252,32 @@ $tablet: "only screen and (min-width : 600px)"
       color: #ccc
 
   .matched-swaps-list
+    position: relative
     .matched-swap
       border-top: 1px solid black
       border-top: 1px solid black
       margin-top: 24px
       margin-bottom: 24px
+
+    .more-swaps
+      background-color: #b0b0b0
+      color: #e8e8e8
+      text-align: center
+      margin-bottom: 16px
+
+  // swaplistitem CSS transitions
+  .swaplistitem-enter
+    opacity: 0.01
+  .swaplistitem-enter.swaplistitem-enter-active
+    opacity: 1
+    transition: opacity 500ms ease-in
+  .swaplistitem-leave
+    position: absolute
+    top: 48px
+    opacity: 1
+  .swaplistitem-leave.swaplistitem-leave-active
+    opacity: 0.01
+    transition: opacity 300ms ease-in
 
 
 @import "./includes/fontello.scss"

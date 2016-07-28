@@ -29,9 +29,8 @@ exports.extractSwapFromEvent = (swapstreamEvent) => {
     return newSwap
 }
 
-exports.isPossibleSwapMatch = (possibleSwapConfig, actualDesiredSwap) => {
-    if (!swapIsValid(possibleSwapConfig)) {
-        console.log('isPossibleSwapMatch failed (swapIsValid)');
+exports.isPossibleSwapMatch = (possibleSwapConfig, actualDesiredSwap, ignoredSwapIds) => {
+    if (!swapIsValid(possibleSwapConfig, ignoredSwapIds)) {
         return false;
     }
 
@@ -76,9 +75,9 @@ exports.mergePossibleMatchedSwap = (swapEventData, allSwapConfigsMap) => {
     return allSwapConfigsMap;
 }
 
-exports.removePossibleSwap = (swapEventData, allSwapConfigs) => {
-    if (allSwapConfigs[swapEventData.id] != null) {
-        delete allSwapConfigs[swapEventData.id];
+exports.removePossibleSwapById = (swapId, allSwapConfigs) => {
+    if (allSwapConfigs[swapId] != null) {
+        delete allSwapConfigs[swapId];
     }
     return allSwapConfigs;
 }
@@ -92,8 +91,12 @@ exports.mergeSwapData = (oldSwapConfig, newSwapConfig) => {
 
 // ------------------------------------------------------------------------
 
-function swapIsValid(possibleSwapConfig) {
+function swapIsValid(possibleSwapConfig, ignoredSwapIds) {
     if (possibleSwapConfig.isComplete) {
+        return false;
+    }
+
+    if (ignoredSwapIds[possibleSwapConfig.id] === true) {
         return false;
     }
 

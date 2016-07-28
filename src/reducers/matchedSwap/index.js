@@ -25,11 +25,22 @@ const matchedSwapReducer = (state=null, action) => {
     }
 
     if (action.type == c.CHOOSE_MY_SWAP) {
-        console.log('CHOOSE_MY_SWAP action.swap.isComplete', action.swap.isComplete);
         return {
             ...state,
             matchedSwap: action.swap,
         }
+    }
+
+    if (action.type == c.IGNORE_SWAP) {
+        let userIgnoredSwapIds = state.userIgnoredSwapIds;
+        userIgnoredSwapIds[action.swap.id] = true;
+
+        let newState = {
+            ...state,
+            userIgnoredSwapIds,
+        }
+
+        return buildStateWithNewSwaps(state, swapMatcher.removePossibleSwapById(action.swap.id, newState.possibleMatchedSwapsMap));
     }
 
     if (action.type == c.SWAPSTREAM_TIME_HEARTBEAT) {
@@ -47,7 +58,6 @@ const matchedSwapReducer = (state=null, action) => {
 
         if (state.matchedSwap != null && swapEventData.id == state.matchedSwap.id) {
             // this is an update for the matched swap
-            console.log('update matched swap');
             let newMatchedSwap = swapMatcher.mergeSwapData(state.matchedSwap, swapEventData);
             return buildStateWithNewMatchedSwap(state, newMatchedSwap);
         }
@@ -57,12 +67,12 @@ const matchedSwapReducer = (state=null, action) => {
             let mergedSwap = swapMatcher.findAndMergeEventDataWithPossibleMatchedSwap(swapEventData, state.possibleMatchedSwapsMap);
 
             // no matched swap yet
-            if (swapMatcher.isPossibleSwapMatch(mergedSwap, state.desiredSwap)) {
+            if (swapMatcher.isPossibleSwapMatch(mergedSwap, state.desiredSwap, state.userIgnoredSwapIds)) {
                 let possibleMatchedSwapsMap = swapMatcher.mergePossibleMatchedSwap(mergedSwap, state.possibleMatchedSwapsMap);
                 return buildStateWithNewSwaps(state, possibleMatchedSwapsMap);
             } else {
                 // remove the swap if necessary
-                let possibleMatchedSwapsMap = swapMatcher.removePossibleSwap(mergedSwap, state.possibleMatchedSwapsMap);
+                let possibleMatchedSwapsMap = swapMatcher.removePossibleSwapById(mergedSwap.id, state.possibleMatchedSwapsMap);
                 return buildStateWithNewSwaps(state, possibleMatchedSwapsMap);
             }
         }

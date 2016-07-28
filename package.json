@@ -43,6 +43,7 @@
     "pluralize": "^3.0.0",
     "qrcode-npm": "0.0.3",
     "react": "^0.14.3",
+    "react-addons-css-transition-group": "^15.2.1",
     "react-dom": "^0.14.3",
     "react-redux": "^4.0.0",
     "react-router": "^2.0.1",

@@ -23,12 +23,6 @@ exports.respondToAction = (action, store) => {
         endListenForPayment(state, store);
     }
 
-    if (action.type == c.UI_GO_TO_STEP && action.step == 'SendPayment') {
-        // reset all the settings
-        endListenForPayment(state, store);
-        beginListenForPayment(state, store);
-    }
-
 }
 
 // ------------------------------------------------------------------------
@@ -101,8 +95,12 @@ const connectStoreForBotId = (store, botId) => {
 
     // -----------------------------------------------------
     if (DEBUG_SWAPSTREAM_EVENTS) {
+        _debugEventOffset = 0;
         setTimeout(()=>{
+            // load the first 3 events immediately to populate the choices
             buildFakeSwapstreamEvent(0);
+            buildFakeSwapstreamEvent(++_debugEventOffset);
+            buildFakeSwapstreamEvent(++_debugEventOffset);
         }, 1);
         let debugSwapstreamInterval = setInterval(()=>{
             buildFakeSwapstreamEvent(++_debugEventOffset);
@@ -149,8 +147,8 @@ const disconnectStoreForBotId = (connectionInfo) => {
 
 let fakeSwapstreamEventsPromise = null;
 function loadFakeSwapstreamEvents() {
-    let URL = 'https://cdn.rawgit.com/deweller/831ac52e4ecd6af78406a5ff55940c1b/raw/17e99d4a86c5acc104e62a6af7f629b7822b59d4/sample-swapstream-events-01.json'
-    // 'https://rawgit.com/deweller/831ac52e4ecd6af78406a5ff55940c1b/raw/17e99d4a86c5acc104e62a6af7f629b7822b59d4/sample-swapstream-events-01.json'
+    // cached with low latency
+    let URL = 'https://cdn.rawgit.com/deweller/831ac52e4ecd6af78406a5ff55940c1b/raw/0ac6c1ce0bf29d9e9dc44a9f21de53b3c061dfc6/sample-swapstream-events-01.json';
 
     if (fakeSwapstreamEventsPromise == null) {
         fakeSwapstreamEventsPromise = new Promise((resolve, reject) => {

@@ -128,4 +128,11 @@ actions.chooseMySwap = (swap) => {
     }
 }
 
+actions.ignoreSwap = (swap) => {
+    return {
+        type: c.IGNORE_SWAP,
+        swap
+    }
+}
+
 export default actions;
