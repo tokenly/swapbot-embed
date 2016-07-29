@@ -5,8 +5,8 @@ import matchedSwapReducer from '../../src/reducers/matchedSwap'
 
 let helper = {}
 
-helper.applySwapstreamEventsForPossibleSwap = (state, id=1, overrides={}) => {
-    let event = helper.generateSwapstreamEvent(id, overrides);
+helper.applySwapstreamEventsForPossibleSwap = (state, id=1, overrides={}, swapstreamEventOverrides={}) => {
+    let event = helper.generateSwapstreamEvent(id, overrides, swapstreamEventOverrides);
     return matchedSwapReducer(state, actions.handleSwapstreamEvent(event));
 }
 
@@ -14,7 +14,7 @@ helper.swapUuid = (id) => {
     return "11111111-1111-1111-1111-"+pad(id, 12);
 }
 
-helper.generateSwapstreamEvent = (id=1, overrides={}) => {
+helper.generateSwapstreamEvent = (id=1, overrides={}, swapstreamEventOverrides={}) => {
     let idSuffix = pad(id, 12);
 
     let event = {
@@ -39,7 +39,8 @@ helper.generateSwapstreamEvent = (id=1, overrides={}) => {
         "level": 200,
         "message": "Received 0.025 BTC from 1AAAA2222xxxxxxxxxxxxxxxxxxy4pQ3tU with 0 confirmations.",
         "serial": 1469662051813,
-        "swapUuid": helper.swapUuid(id)
+        "swapUuid": helper.swapUuid(id),
+        ...swapstreamEventOverrides
     }
 
     return swapstreamEvent;

@@ -83,10 +83,22 @@ exports.removePossibleSwapById = (swapId, allSwapConfigs) => {
 }
 
 exports.mergeSwapData = (oldSwapConfig, newSwapConfig) => {
-    return {
-        ...oldSwapConfig,
-        ...newSwapConfig
-    };
+    let oldSerial = oldSwapConfig.serial || 0;
+    let newSerial = newSwapConfig.serial || 0;
+    if (oldSerial > newSerial) {
+        return {
+            // oldSwapConfig is actually newer
+            ...newSwapConfig,
+            ...oldSwapConfig,
+        };
+
+    } else {
+        return {
+            ...oldSwapConfig,
+            ...newSwapConfig,
+        };
+    }
+
 }
 
 // ------------------------------------------------------------------------

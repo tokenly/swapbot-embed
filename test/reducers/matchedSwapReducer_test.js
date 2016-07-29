@@ -75,25 +75,23 @@ describe('Matched Swap Reducer' , () => {
         expect(state.possibleMatchedSwapsArray[0].id).to.equal(oldId)
     })
 
-    // it('respects serial when applying events', () => {
-    //     expect(1).to.equal(1)
-    //     let stateBefore = {}
-    //     let action = desiredSwapGenerator.buildSetDesiredSwapAction(1, 'TOKENLY', 0.01, 'BTC');
-    //     deepFreeze(stateBefore);
-    //     deepFreeze(action);
-    //     let state = matchedSwapReducer(stateBefore, action)
+    it('respects serial when applying events', () => {
+        // build a desired swap
+        let action = desiredSwapGenerator.buildSetDesiredSwapAction(1, 'TOKENLY', 0.01, 'BTC');
+        let state = matchedSwapReducer({}, action)
 
-    //     // apply two possible swaps
-    //     state = swapstreamHelper.applySwapstreamEventsForPossibleSwap(state);
-    //     state = swapstreamHelper.applySwapstreamEventsForPossibleSwap(state, 2);
-    //     expect(state.possibleMatchedSwapsArray).to.have.length(2)
+        // apply a swapstream event with 1 transactions
+        state = swapstreamHelper.applySwapstreamEventsForPossibleSwap(state, 1, {confirmations: "1"}, {serial: 1469662005000});
 
-    //     // ignore one of the swaps
-    //     let oldId = state.possibleMatchedSwapsArray[0].id;
-    //     state = matchedSwapReducer(state, actions.ignoreSwap(state.possibleMatchedSwapsArray[1]))
-    //     expect(state.possibleMatchedSwapsArray).to.have.length(1)
-    //     expect(state.possibleMatchedSwapsArray[0].id).to.equal(oldId)
-    // })
+        // apply a swapstream event with 0 transactions, but with an earlier serial number
+        state = swapstreamHelper.applySwapstreamEventsForPossibleSwap(state, 1, {confirmations: "0"}, {serial: 1469662000000});
+        
+        // make sure the possible matched swap is still 1 transaction
+        expect(state.possibleMatchedSwapsArray).to.have.length(1)
+        let mergedSwap = state.possibleMatchedSwapsArray[0];
+        expect(mergedSwap.confirmations).to.equal('1')
+
+    })
 
 
 });
