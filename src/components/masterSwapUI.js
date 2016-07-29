@@ -103,6 +103,8 @@ stepConnectors.SendPayment = () => {
                 desiredSwap:   state.desiredSwap,
                 bot:           state.desiredSwap.bot,
                 QRModalActive: state.uiState.QRModalActive,
+                matchData:     state.matchedSwap,
+
             }
         },
         mapDispatchToProps: (dispatch) => {

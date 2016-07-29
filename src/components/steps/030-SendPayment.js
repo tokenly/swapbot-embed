@@ -5,8 +5,9 @@ import indiesquare            from '../../lib/util/indiesquare'
 import qrCode                 from 'qrcode-npm';
 import SwapbotEmbedFooterLink from '../includes/SwapbotEmbedFooterLink'
 import ShowMatchedSwaps       from '../includes/ShowMatchedSwaps'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-const SendPaymentComponent = ({desiredSwap, QRModalActive, bot, showQRModal, hideQRModal, goBack}) => {
+const SendPaymentComponent = ({desiredSwap, matchData, QRModalActive, bot, showQRModal, hideQRModal, goBack}) => {
     let paymentButtonLabel = `Swapbot ${bot.name} for ${currency.formatCurrency(desiredSwap.out.quantity, desiredSwap.out.token)}`;
 
     return <div className="swapbot-embed">
@@ -15,32 +16,41 @@ const SendPaymentComponent = ({desiredSwap, QRModalActive, bot, showQRModal, hid
         </div>
         <div className="embed-content">
             <div className="heading">
-                Review & Redeem
+                Review & Pay
             </div>
-            <p className="review-text">
-                <span> You are purchasing </span>
-                <span className="token-text">
-                    {currency.formatCurrency(desiredSwap.out.quantity, desiredSwap.out.token)}
-                </span> 
-                <br/>
-                <span> and paying with </span>
-                <span className="token-text">
-                    {currency.formatCurrency(desiredSwap.in.quantity, desiredSwap.in.token)}
-                </span>
-            </p>
 
-            <p className="redeem-text">
-                To begin this swap send 
-                <span className="token-text"> {currency.formatCurrency(desiredSwap.in.quantity, desiredSwap.in.token)}</span>
-                <span> to </span>
-                <span className="token-text">{bot.address}</span>.
-            </p>
-            <div className="buttons-container buttons-pay-container">
-                { pockets.buildPaymentButton(bot.address, paymentButtonLabel, desiredSwap.in.quantity, desiredSwap.in.token) }
-                { indiesquare.buildPaymentButton(bot.address, paymentButtonLabel, desiredSwap.in.quantity, desiredSwap.in.token) }
-                <div className="button-divider">or</div>
-                <button className="btn-qrcode" onClick={ showQRModal }><i className="icon-qrcode"></i></button>
-            </div>
+            <ReactCSSTransitionGroup transitionName="paymentoptions" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
+
+            { (matchData.anyMatchedSwapsExist) ? null : 
+                <div key={'paymentoptions'}>
+                    <p className="review-text">
+                        <span> You are purchasing </span>
+                        <span className="token-text">
+                            {currency.formatCurrency(desiredSwap.out.quantity, desiredSwap.out.token)}
+                        </span> 
+                        <br/>
+                        <span> and paying with </span>
+                        <span className="token-text">
+                            {currency.formatCurrency(desiredSwap.in.quantity, desiredSwap.in.token)}
+                        </span>
+                    </p>
+
+                    <p className="redeem-text">
+                        To begin this swap send 
+                        <span className="token-text"> {currency.formatCurrency(desiredSwap.in.quantity, desiredSwap.in.token)}</span>
+                        <span> to </span>
+                        <span className="token-text">{bot.address}</span>.
+                    </p>
+                    <div className="buttons-container buttons-pay-container">
+                        { pockets.buildPaymentButton(bot.address, paymentButtonLabel, desiredSwap.in.quantity, desiredSwap.in.token) }
+                        { indiesquare.buildPaymentButton(bot.address, paymentButtonLabel, desiredSwap.in.quantity, desiredSwap.in.token) }
+                        <div className="button-divider">or</div>
+                        <button className="btn-qrcode" onClick={ showQRModal }><i className="icon-qrcode"></i></button>
+                    </div>
+                </div>
+            }
+
+            </ReactCSSTransitionGroup>
 
             <ShowMatchedSwaps />
         </div>

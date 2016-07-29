@@ -76,7 +76,6 @@ const handleSwapstreamEvent = (swapstreamEvent, store) => {
 
 
 const SWAP_LOAD_LIMIT = 25;
-let _debugEventOffset = 0;
 const connectStoreForBotId = (store, botId) => {
 
     // -----------------------------------------------------
@@ -130,6 +129,12 @@ const disconnectStoreForBotId = (connectionInfo) => {
 // ------------------------------------------------------------------------
 // DEBUG
 
+// const FAKE_SWAPSTREAM_UPDATE_DELAY  = 3500; // ms
+// const FAKE_SWAPSTREAM_INITIAL_DELAY = 1;    // ms
+const FAKE_SWAPSTREAM_UPDATE_DELAY     = 6000; // ms
+const FAKE_SWAPSTREAM_INITIAL_DELAY    = 5000; // ms
+
+let _debugEventOffset = 0;
 const DEBUG_connectStoreForBotId = (store, botId) => {
     _debugEventOffset = 0;
 
@@ -142,10 +147,11 @@ const DEBUG_connectStoreForBotId = (store, botId) => {
         buildFakeSwapstreamEvent(0);
         buildFakeSwapstreamEvent(++_debugEventOffset);
         buildFakeSwapstreamEvent(++_debugEventOffset);
-    }, 1);
+    }, FAKE_SWAPSTREAM_INITIAL_DELAY);
+
     let debugSwapstreamInterval = setInterval(()=>{
         buildFakeSwapstreamEvent(++_debugEventOffset);
-    }, 3500); // 3500 750
+    }, FAKE_SWAPSTREAM_UPDATE_DELAY); // 3500 750
 
     let buildFakeSwapstreamEvent = (eventOffset) => {
         loadFakeSwapstreamEvents().then((data) => {
