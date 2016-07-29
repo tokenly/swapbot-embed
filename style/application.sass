@@ -250,6 +250,7 @@ $tablet: "only screen and (min-width : 600px)"
     text-transform: uppercase
     font-weight: bold
     letter-spacing: 1px
+    margin-top: 15px
 
   .matched-swap
     .matched-swap--heading
@@ -257,7 +258,7 @@ $tablet: "only screen and (min-width : 600px)"
       padding-bottom: 2px
       margin-bottom: 10px
     .title
-      color: $gray
+      color: $gray-dark
       font-weight: bold
       letter-spacing: 1px
       text-transform: uppercase
@@ -268,6 +269,7 @@ $tablet: "only screen and (min-width : 600px)"
       color: $gray-dark
       font-size: 18px
       margin-bottom: 20px
+      word-wrap: break-word
     .confirmations
       color: $gray-dark
       margin-bottom: 20px
@@ -275,10 +277,8 @@ $tablet: "only screen and (min-width : 600px)"
 
   .matched-swaps-list
     position: relative
-    margin-top: 15px
     max-width: 500px
     .matched-swap
-      margin-top: 24px
       margin-bottom: 24px
 
     .more-swaps
@@ -295,16 +295,20 @@ $tablet: "only screen and (min-width : 600px)"
   // swaplistitem CSS transitions
   .swaplistitem-enter
     opacity: 0.01
+    transform: translateX(-100px)
   .swaplistitem-enter.swaplistitem-enter-active
     opacity: 1
-    transition: opacity 500ms ease-in
+    transition: all 500ms ease-in
+    transform: translateX(0)
   .swaplistitem-leave
     position: absolute
     top: 0px
     opacity: 1
+    transform: translateX(0)
   .swaplistitem-leave.swaplistitem-leave-active
     opacity: 0.01
-    transition: opacity 300ms ease-in
+    transition: all 200ms ease-in
+    transform: translateX(100px)
 
 
 @import "./includes/fontello.scss"

@@ -32,6 +32,7 @@ module.exports = {
     devtool: 'source-map',
     devServer: {
         historyApiFallback: true,
-        contentBase: './public'
+        contentBase: './public',
+        hot: true
     }
 };

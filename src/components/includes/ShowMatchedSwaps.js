@@ -17,13 +17,13 @@ const ShowMatchedSwaps = ({matchData, bot, chooseMySwap, ignoreSwap}) => {
                         return <div key={'swap-'+swap.id} className="matched-swap">
                             <div className="matched-swap--heading">
                                 <div className="time">{swap.fromNow}</div>
-                                <div className="title">Transaction Received</div>
+                                <div className="title">Payment Detected</div>
                             </div>
 
                             <div className="msg">{swap.message}</div>
                             <div className="confirmations">This transaction has <b>{ pluralize('confirmation', (swap.confirmations == null ? 0 : swap.confirmations), true) }</b>.</div>
                             <div className="buttons-container">
-                                <button onClick={()=>{chooseMySwap(swap)}} type="button" className="btn-flex btn-success">Confirm</button>
+                                <button onClick={()=>{chooseMySwap(swap)}} type="button" className="btn-flex btn-success">That's My Payment</button>
                                 <button onClick={()=>{ignoreSwap(swap)}} type="button" className="btn-flex btn-danger">Not Mine</button>
                             </div>
                         </div>
