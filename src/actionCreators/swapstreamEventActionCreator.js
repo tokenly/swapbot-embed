@@ -7,8 +7,7 @@ import request    from 'superagent';
 
 let exports = {};
 
-let connectionInfo = null;
-let connectedBotId = null;
+let connectionInfo = {};
 
 const DEBUG_SWAPSTREAM_EVENTS = (document.location.href.indexOf('_SBDEBUG') >= 0);
 
@@ -44,17 +43,15 @@ function beginListenForPayment(state, store) {
     }, 0);
 
     // subscribe to the bot feed and start listening for events
-    if (botId != null && connectedBotId != botId) {
+    if (botId != null && connectionInfo.botId != botId) {
         connectionInfo = connectStoreForBotId(store, botId);
-        connectedBotId = botId;
     }
 }
 
 function endListenForPayment(state, store) {
-    if (connectedBotId) {
+    if (connectionInfo.botId) {
         disconnectStoreForBotId(connectionInfo);
         connectionInfo = {};
-        connectedBotId = null;
 
         setTimeout(()=>{
             actions.clearDesiredSwapstreamSwap();
@@ -81,64 +78,89 @@ const handleSwapstreamEvent = (swapstreamEvent, store) => {
 const SWAP_LOAD_LIMIT = 25;
 let _debugEventOffset = 0;
 const connectStoreForBotId = (store, botId) => {
-    if (!DEBUG_SWAPSTREAM_EVENTS) {
-        // load swapstream events from the API
-        swapbotApi.getSwapsstreamEventsByBotId(botId, SWAP_LOAD_LIMIT).then((swapstreamEvents) => {
-            handleSwapstreamEvents(swapstreamEvents, store);
-        });
-    }
 
+    // -----------------------------------------------------
+    if (DEBUG_SWAPSTREAM_EVENTS) {
+        return DEBUG_connectStoreForBotId(store, botId);
+    }
+    // -----------------------------------------------------
+
+    // start a heartbeat to update the time display for each potential swap
     let heartbeatInterval = setInterval(()=>{
         store.dispatch(actions.swapstreamTimeHeartbeat());
     }, 5000);
 
 
-    // -----------------------------------------------------
-    if (DEBUG_SWAPSTREAM_EVENTS) {
-        _debugEventOffset = 0;
-        setTimeout(()=>{
-            // load the first 3 events immediately to populate the choices
-            buildFakeSwapstreamEvent(0);
-            buildFakeSwapstreamEvent(++_debugEventOffset);
-            buildFakeSwapstreamEvent(++_debugEventOffset);
-        }, 1);
-        let debugSwapstreamInterval = setInterval(()=>{
-            buildFakeSwapstreamEvent(++_debugEventOffset);
-        }, 3500); // 3500 750
-
-        let buildFakeSwapstreamEvent = (eventOffset) => {
-            loadFakeSwapstreamEvents().then((data) => {
-                let event = data[eventOffset];
-                if (event != null) {
-                    handleSwapstreamEvents([event], store);
-                }
-            });
-        }
-
-        return {
-            debugSwapstreamInterval,
-            heartbeatInterval,
-        }
+    // load swapstream events from the API as soon as the websocket is subscribed
+    let onSubscribed = () => {
+        swapbotApi.getSwapsstreamEventsByBotId(botId, SWAP_LOAD_LIMIT).then((swapstreamEvents) => {
+            handleSwapstreamEvents(swapstreamEvents, store);
+        });
     }
-    // -----------------------------------------------------
 
+    // subscribe to the pusher channel
+    let pusherClient = pusher.subscribe({
+        channel: 'swapbot_swapstream_'+botId,
+        onData: (event) => {
+            handleSwapstreamEvent(event, store);
+        },
+        onSubscribed: onSubscribed
+    });
 
-
-    // // subscribe to pusher
-    // let client = pusher.subscribe({
-    //     channel: 'quotebot_quote_all',
-    //     onData: (newQuote) => {
-    //         store.dispatch(actions.updateQuote(newQuote));
-    //     },
-    // });
-
-
-
+    return {
+        botId,
+        pusherClient,
+        heartbeatInterval,
+    }
 }
 
 const disconnectStoreForBotId = (connectionInfo) => {
-    if (DEBUG_SWAPSTREAM_EVENTS) { clearInterval(connectionInfo.debugSwapstreamInterval); }
     clearInterval(connectionInfo.heartbeatInterval);
+
+    if (connectionInfo.debugSwapstreamInterval != null) {
+        clearInterval(connectionInfo.debugSwapstreamInterval);
+    }
+
+    if (connectionInfo.pusherClient != null) {
+        connectionInfo.pusherClient.close();
+    }
+}
+
+
+// ------------------------------------------------------------------------
+// DEBUG
+
+const DEBUG_connectStoreForBotId = (store, botId) => {
+    _debugEventOffset = 0;
+
+    let heartbeatInterval = setInterval(()=>{
+        store.dispatch(actions.swapstreamTimeHeartbeat());
+    }, 5000);
+
+    setTimeout(()=>{
+        // load the first 3 events immediately to populate the choices
+        buildFakeSwapstreamEvent(0);
+        buildFakeSwapstreamEvent(++_debugEventOffset);
+        buildFakeSwapstreamEvent(++_debugEventOffset);
+    }, 1);
+    let debugSwapstreamInterval = setInterval(()=>{
+        buildFakeSwapstreamEvent(++_debugEventOffset);
+    }, 3500); // 3500 750
+
+    let buildFakeSwapstreamEvent = (eventOffset) => {
+        loadFakeSwapstreamEvents().then((data) => {
+            let event = data[eventOffset];
+            if (event != null) {
+                handleSwapstreamEvents([event], store);
+            }
+        });
+    }
+
+    return {
+        botId,
+        debugSwapstreamInterval,
+        heartbeatInterval,
+    }
 }
 
 
