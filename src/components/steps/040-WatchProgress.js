@@ -25,8 +25,10 @@ const WatchProgressComponent = ({desiredSwap, bot, swap, goBack}) => {
             </p>
 
             <div className="matched-swap matched-swap-watch">
-                <div className="time">{swap.fromNow}</div>
-                <div className="title">{swap.isComplete ? 'Swap Complete' : 'Swap in Progress'}</div>
+                <div className="matched-swap--heading">
+                    <div className="time">{swap.fromNow}</div>
+                    <div className="title">{swap.isComplete ? 'Swap Complete' : 'Swap in Progress'}</div>
+                </div>
                 <div className="msg">{swap.message}</div>
                 <div className="confirmations">This swap has { pluralize('confirmation', swap.confirmations == null ? 0 : swap.confirmations, true) } in and { pluralize('confirmation', swap.confirmationsOut == null ? 0 : swap.confirmationsOut, true) } out.</div>
             </div>
