@@ -12,6 +12,10 @@ A Javascript API and embeddable interface for Swapbots
 - start the development server with `npm start`
 - visit the local test page at [http://127.0.0.1:4000](http://127.0.0.1:4000)
 
-To see simulated swap detection and updates, visit [http://127.0.0.1:4000/?_SBDEBUG](http://127.0.0.1:4000/?_SBDEBUG) and choose to purchase 2 TOKENLY for BTC.
+To see simulated swap detection and updates:
+
+- visit [http://127.0.0.1:4000/?_SBDEBUG](http://127.0.0.1:4000/?_SBDEBUG) and choose to purchase 2 TOKENLY for BTC.
+- Email submissions are also simulated at this URL.  
+- Use an email address with the phrase `error` in it somewhere to simulate an error response at this URL.
 
 
