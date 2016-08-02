@@ -1,6 +1,6 @@
 import React                  from 'react'
 import currency               from '../../lib/util/currency'
-import SwapbotEmbedFooterLink from '../includes/SwapbotEmbedFooterLink'
+import SwapbotEmbedFooterLink from '../../connectors/SwapbotEmbedFooterLink'
 
 
 const EnterAmountComponent = ({swapObjects, desiredSwap, setOutToken, setOutTokenQuantity, setInToken, setInTokenQuantity, completeEnterAmountStep}) => {

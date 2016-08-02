@@ -10,8 +10,8 @@ A Javascript API and embeddable interface for Swapbots
 - install the dependencies with `npm install`
 - run the tests with `npm test`
 - start the development server with `npm start`
-- visit the local test page at [http://127.0.0.1:8080](http://127.0.0.1:8080)
+- visit the local test page at [http://127.0.0.1:4000](http://127.0.0.1:4000)
 
-To see simulated swap detection and updates, visit [http://127.0.0.1:8080/?_SBDEBUG](http://127.0.0.1:8080/?_SBDEBUG) and choose to purchase 2 TOKENLY for BTC.
+To see simulated swap detection and updates, visit [http://127.0.0.1:4000/?_SBDEBUG](http://127.0.0.1:4000/?_SBDEBUG) and choose to purchase 2 TOKENLY for BTC.
 
 

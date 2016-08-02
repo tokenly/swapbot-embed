@@ -57,7 +57,7 @@ exports.isPossibleSwapMatch = (possibleSwapConfig, actualDesiredSwap, ignoredSwa
         }
     }
 
-    console.log('isPossibleSwapMatch failed for '+possibleSwapConfig.quantityIn+' '+possibleSwapConfig.assetIn+'');
+    // console.log('isPossibleSwapMatch failed for '+possibleSwapConfig.quantityIn+' '+possibleSwapConfig.assetIn+'');
     return false;
 }
 

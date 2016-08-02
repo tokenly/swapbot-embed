@@ -11,6 +11,9 @@ const constants = {
 
     UI_SHOW_QR_MODAL:                     'UI_SHOW_QR_MODAL',
     UI_HIDE_QR_MODAL:                     'UI_HIDE_QR_MODAL',
+    UI_SET_NOTIFICATION_EMAIL:            'UI_SET_NOTIFICATION_EMAIL',
+    UI_SUBMIT_NOTIFICATION_EMAIL:         'UI_SUBMIT_NOTIFICATION_EMAIL',
+    UI_COMPLETE_NOTIFICATION_EMAIL:       'UI_COMPLETE_NOTIFICATION_EMAIL',
 
     INPUT_SET_OUT_TOKEN_QUANTITY:         'INPUT_SET_OUT_TOKEN_QUANTITY',
     INPUT_SET_OUT_TOKEN:                  'INPUT_SET_OUT_TOKEN',
@@ -33,6 +36,11 @@ const constants = {
     DIRECTION_SELL:                       'sell',
     DIRECTION_BUY:                        'buy',
     SATOSHI:                              100000000,
+
+    EMAIL_STATUS_NONE:                    'none',
+    EMAIL_STATUS_SUBMITTING:              'submitting',
+    EMAIL_STATUS_SUBMITTED:               'submitted',
+    EMAIL_STATUS_ERROR:                   'error',
 }
 
 export default constants;

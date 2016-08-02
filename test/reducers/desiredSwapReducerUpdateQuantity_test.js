@@ -71,7 +71,7 @@ describe('Desired Swap Reducer Quantity Change' , () => {
         stateChecker.checkSwap(workingState, [1, 'ALPHA', '0.02', 'BTC']);
 
         // now change the token to pay with (in)
-        console.log('setting new in token');
+        // console.log('setting new in token');
         workingState = desiredSwapReducer(workingState, buildSetInTokenAction({token: 'XCP'}));
 
         // the quantity to pay (in) with should change

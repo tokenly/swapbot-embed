@@ -1,6 +1,7 @@
 import React                  from 'react'
 import currency               from '../../lib/util/currency'
-import SwapbotEmbedFooterLink from '../includes/SwapbotEmbedFooterLink'
+import SwapbotEmbedFooterLink from '../../connectors/SwapbotEmbedFooterLink'
+import EnterNotificationEmail from '../../connectors/EnterNotificationEmail'
 import pluralize              from 'pluralize'
 
 const WatchProgressComponent = ({desiredSwap, bot, swap, goBack}) => {
@@ -33,6 +34,8 @@ const WatchProgressComponent = ({desiredSwap, bot, swap, goBack}) => {
                 <div className="confirmations">This swap has { pluralize('confirmation', swap.confirmations == null ? 0 : swap.confirmations, true) } in and { pluralize('confirmation', swap.confirmationsOut == null ? 0 : swap.confirmationsOut, true) } out.</div>
             </div>
         </div>
+
+        <EnterNotificationEmail/>
 
         <div className="embed-footer">
             <a onClick={() => { goBack(); }} className="btn-back">Go Back</a>

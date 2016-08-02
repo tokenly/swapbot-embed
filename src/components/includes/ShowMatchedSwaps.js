@@ -1,7 +1,5 @@
 import React                   from 'react'
-import { connect }             from 'react-redux';
 import pluralize               from 'pluralize'
-import actions                 from '../../actions';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 const ShowMatchedSwaps = ({matchData, bot, chooseMySwap, ignoreSwap}) => {
@@ -50,28 +48,7 @@ const ShowMatchedSwaps = ({matchData, bot, chooseMySwap, ignoreSwap}) => {
         </div>
 }
 
-// connect the component
-let mapStateToProps = (state) => {
-    return {
-        bot: state.desiredSwap.bot,
-        matchData: state.matchedSwap,
-    }
-};
-let mapDispatchToProps = (dispatch) => {
-    return {
-        chooseMySwap: (swap) => {
-            dispatch(actions.chooseMySwap(swap));
-            dispatch(actions.completeSendPaymentStep());
-        },
-        ignoreSwap: (swap) => {
-            dispatch(actions.ignoreSwap(swap));
-        },
-    };
-};
-
-let ConnectedShowMatchedSwaps = connect(mapStateToProps, mapDispatchToProps)(ShowMatchedSwaps);
 
 // ------------------------------------------------------------------------
 
-
-export default ConnectedShowMatchedSwaps;
+export default ShowMatchedSwaps;

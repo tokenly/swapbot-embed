@@ -1,5 +1,5 @@
 import React                  from 'react'
-import SwapbotEmbedFooterLink from '../includes/SwapbotEmbedFooterLink'
+import SwapbotEmbedFooterLink from '../../connectors/SwapbotEmbedFooterLink'
 
 const ConfirmWalletComponent = ({goBack, launchWindow, completeWalletConfirmationStep}) => {
     return <div className="swapbot-embed">

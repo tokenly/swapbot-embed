@@ -7,7 +7,7 @@
   "scripts": {
     "build": "node ./node_modules/webpack/bin/webpack.js",
     "build:prod": "node ./node_modules/webpack/bin/webpack.js -p",
-    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --inline --hot",
+    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --inline --hot --port 4000",
     "test": "./node_modules/mocha/bin/mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
     "test:watch": "npm run test -- --watch",
     "buildmacro": "node ./build/sethosturl.js"
@@ -25,10 +25,10 @@
     "deep-freeze": "0.0.1",
     "jquery": "^2.2.1",
     "jsdom": "^8.1.0",
-    "mocha": "^2.4.5",
+    "mocha": "^3",
     "node-sass": "^3.8.0",
-    "react-addons-test-utils": "^0.14.7",
-    "sass-loader": "^3.2.1",
+    "react-addons-test-utils": "^15",
+    "sass-loader": "^4",
     "sinon": "^1.17.4",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.1",
@@ -43,12 +43,13 @@
     "numeral": "^1.5.3",
     "pluralize": "^3.0.0",
     "qrcode-npm": "0.0.3",
-    "react": "^0.14.3",
+    "react": "^15",
     "react-addons-css-transition-group": "^15.2.1",
-    "react-dom": "^0.14.3",
+    "react-dom": "^15",
     "react-redux": "^4.0.0",
     "react-router": "^2.0.1",
     "redux": "^3.0.4",
-    "superagent": "^2.0.0"
+    "superagent": "^2.0.0",
+    "validator": "^5.5.0"
   }
 }

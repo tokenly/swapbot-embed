@@ -5,13 +5,15 @@ import pockets    from '../util/pockets';
 
 let api = {}
 
-let connectionUrl = 'https://swapbot.tokenly.com';
+let connectionUrl;
 let clientId = null;
 
 let swapbotApiConnected = false;
 
 api.init = function(options) {
     options = options || {};
+
+    connectionUrl = options.host || 'https://swapbot.tokenly.com';
 
     clientId = options.clientId;
     if (clientId == null) {
@@ -42,16 +44,39 @@ api.getSwaps = function(parameters, callback=null) {
 api.showSwapUI = function(domElement, swapObjects, options) {
     checkSwapbotConnection();
 
+
     let isValid = false;
-    if (Array.isArray(swapObjects) && (swapObjects[0] instanceof SwapObject)) {
-        isValid = true;
-    } else if (swapObjects instanceof SwapObject) {
+    let publicError, consoleError;
+
+    if (swapObjects instanceof SwapObject) {
         swapObjects = [swapObjects];
+    }
+
+    if (Array.isArray(swapObjects)) {
         isValid = true;
+
+        if (isValid && swapObjects.length < 1) {
+            isValid = false;
+            publicError = "No swaps were found for this search."
+            consoleError = "You must pass objects of type SwapObject to the showSwapUI method"
+        }
+
+        if (isValid && !(swapObjects[0] instanceof SwapObject)) {
+            isValid = false;
+            publicError = "Invalid swaps were found."
+            consoleError = "Only objects of type SwapObject may be passed to the showSwapUI method"
+        }
+
+    } else {
+        isValid = false;
+        publicError = "Invalid swaps found"
+        consoleError = "You must pass an array of SwapObject objects to the showSwapUI method"
     }
 
     if (!isValid) {
-        throw new Error("You must pass SwapObject objects to the showSwapUI method")
+        console.error(consoleError);
+        SwapUI.showError(domElement, publicError);
+        return;
     }
 
     SwapUI.show(domElement, swapObjects, options);

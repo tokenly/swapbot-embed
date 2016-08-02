@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux';
 
 const SwapbotEmbedFooterLink = (props) => {
     return <span className="embed-footer-link">
@@ -7,15 +6,6 @@ const SwapbotEmbedFooterLink = (props) => {
         </span>
 }
 
-// connect the embed footer
-let mapStateToProps = (state) => {
-    return {
-        desiredSwap: state.desiredSwap
-    }
-};
-let ConnectedSwapbotEmbedFooterLink = connect(mapStateToProps)(SwapbotEmbedFooterLink);
-
 // ------------------------------------------------------------------------
 
-
-export default ConnectedSwapbotEmbedFooterLink;
+export default SwapbotEmbedFooterLink;

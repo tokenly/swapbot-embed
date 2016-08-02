@@ -3,8 +3,8 @@ import currency               from '../../lib/util/currency'
 import pockets                from '../../lib/util/pockets'
 import indiesquare            from '../../lib/util/indiesquare'
 import qrCode                 from 'qrcode-npm';
-import SwapbotEmbedFooterLink from '../includes/SwapbotEmbedFooterLink'
-import ShowMatchedSwaps       from '../includes/ShowMatchedSwaps'
+import SwapbotEmbedFooterLink from '../../connectors/SwapbotEmbedFooterLink'
+import ShowMatchedSwaps       from '../../connectors/ShowMatchedSwaps'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 const SendPaymentComponent = ({desiredSwap, matchData, QRModalActive, bot, showQRModal, hideQRModal, goBack}) => {
@@ -99,7 +99,7 @@ function generateQRCode(bot, inQuantity, inToken) {
           '?amount='+currency.formatCurrencyAsNumber(inQuantity) + 
           '&asset='+inToken + 
           '&label='+encodeURIComponent('Swapbot '+bot.name)
-    console.log('generateQRCode URI:', URI);
+    // console.log('generateQRCode URI:', URI);
 
     let qr = qrCode.qrcode(8, 'M');
     qr.addData(URI);

@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux';
 
 import actions from '../actions';
-import StepComponents from './steps';
+import StepComponents from '../components/steps';
 
 // connect App to the Provider
 let allConnectedSteps;

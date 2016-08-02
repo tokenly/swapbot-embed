@@ -129,10 +129,10 @@ const disconnectStoreForBotId = (connectionInfo) => {
 // ------------------------------------------------------------------------
 // DEBUG
 
-// const FAKE_SWAPSTREAM_UPDATE_DELAY  = 3500; // ms
-// const FAKE_SWAPSTREAM_INITIAL_DELAY = 1;    // ms
-const FAKE_SWAPSTREAM_UPDATE_DELAY     = 6000; // ms
-const FAKE_SWAPSTREAM_INITIAL_DELAY    = 5000; // ms
+const FAKE_SWAPSTREAM_UPDATE_DELAY  = 3500; // ms
+const FAKE_SWAPSTREAM_INITIAL_DELAY = 1;    // ms
+// const FAKE_SWAPSTREAM_UPDATE_DELAY     = 6000; // ms
+// const FAKE_SWAPSTREAM_INITIAL_DELAY    = 5000; // ms
 
 let _debugEventOffset = 0;
 const DEBUG_connectStoreForBotId = (store, botId) => {
@@ -176,7 +176,7 @@ const DEBUG_connectStoreForBotId = (store, botId) => {
 let fakeSwapstreamEventsPromise = null;
 function loadFakeSwapstreamEvents() {
     // cached with low latency
-    let URL = 'https://cdn.rawgit.com/deweller/831ac52e4ecd6af78406a5ff55940c1b/raw/0ac6c1ce0bf29d9e9dc44a9f21de53b3c061dfc6/sample-swapstream-events-01.json';
+    let URL = 'https://cdn.rawgit.com/deweller/831ac52e4ecd6af78406a5ff55940c1b/raw/8ecb1aa3e332537cc82338f3906b75846bd03883/sample-swapstream-events-01.json';
 
     if (fakeSwapstreamEventsPromise == null) {
         fakeSwapstreamEventsPromise = new Promise((resolve, reject) => {

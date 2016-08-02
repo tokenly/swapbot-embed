@@ -3,15 +3,47 @@ import ReactDOM                         from 'react-dom';
 import { Provider, connect }            from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import actions                          from '../../actions';
-import MasterSwapUIComponent            from '../../components/masterSwapUI';
+import MasterSwapUIComponent            from '../../connectors/masterSwapUI';
 import reducers                         from '../../reducers';
 import quoteBotActionCreator            from '../../actionCreators/quoteBotActionCreator'
 import logger                           from '../../middleware/logger'
 import swapstream                       from '../../middleware/swapstream'
+import SwapUIError                      from '../../components/error/SwapUIError'
 
 
 
 let SwapUI = {};
+
+SwapUI.showError = (selectorOrElement, publicError) => {
+    // create the store
+    // const createStoreWithMiddleware = applyMiddleware()(createStore);
+
+    // resolve the domElement
+    let domElement = resolveSelector(selectorOrElement)
+
+    if (domElement == null) {
+        throw new Error("Unable initialize the swap UI because we couldn't find a domElement for the provided selector.");
+    }
+
+    // build a new, empty dom element for the application
+    while (domElement.firstChild) { domElement.removeChild(domElement.firstChild); }
+    let appContainerElement = document.createElement("div");
+    appContainerElement.setAttribute('data-swapbot-embed', '');
+    domElement.appendChild(appContainerElement);
+
+
+    let doRender = ()=>{
+        ReactDOM.render(
+            <SwapUIError error={publicError} />
+            , appContainerElement
+        );
+    }
+
+    doRender();
+
+
+    return appContainerElement;
+}
 
 SwapUI.show = (selectorOrElement, swapObjects, opts) => {
     // create the store

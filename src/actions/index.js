@@ -92,6 +92,29 @@ actions.hideQRModal = () => {
         type: c.UI_HIDE_QR_MODAL
     }
 }
+actions.setNotificationEmail = (email) => {
+    return {
+        type: c.UI_SET_NOTIFICATION_EMAIL,
+        email: email,
+    }
+}
+
+actions.submitNotificationEmail = (email, swapId, level=0) => {
+    return {
+        type: c.UI_SUBMIT_NOTIFICATION_EMAIL,
+        email,
+        swapId,
+        level,
+    }
+}
+
+actions.completeNotificationSubmission = (success, errorMsg) => {
+    return {
+        type:     c.UI_COMPLETE_NOTIFICATION_EMAIL,
+        success:  success,
+        errorMsg: errorMsg,
+    }
+}
 
 // ------------------------------------------------------------------------
 // swapstream

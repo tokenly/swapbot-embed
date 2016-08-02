@@ -53,6 +53,18 @@ swapbotApi.getSwapsstreamEventsByBotId = (botId, limit=25) => {
     return swapbotApi.sendRequest(apiOpts, 'GET', '/public/swapevents/'+botId, parameters);
 }
 
+swapbotApi.submitCustomerEmail = (swapId, email, level=0) => {
+    checkConnection();
+
+    let parameters = {
+        swapId,
+        email,
+        level,
+    };
+
+    return swapbotApi.sendRequest(apiOpts, 'POST', '/public/customers', parameters);
+}
+
 // ------------------------------------------------------------------------
 
 swapbotApi.sendRequest = function(apiOpts, method, urlPath, params) {
@@ -71,6 +83,12 @@ swapbotApi.sendHttpRequest = function(method, fullUrl, params) {
         }
         req.end((error, res) => {
             if (error) {
+                let parsedResponse = swapbotApi.parseAPIResponse(res)
+                if (parsedResponse != null && parsedResponse.message != null) {
+                    reject(parsedResponse.message);
+                    return;
+                }
+
                 reject(error);
             } else {
                 resolve(swapbotApi.parseAPIResponse(res));

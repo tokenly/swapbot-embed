@@ -215,6 +215,9 @@ $tablet: "only screen and (min-width : 600px)"
     font-size: 20px
 
   // ERROR
+  .TKSB_errorHeader
+    font-weight: bold
+    margin-bottom: 6px
   .TKSB_error
     +errorPanel()
 
@@ -310,6 +313,8 @@ $tablet: "only screen and (min-width : 600px)"
     transition: all 200ms ease-in
     transform: translateX(100px)
 
+  .disabled
+    opacity: 0.45
 
 @import "./includes/fontello.scss"
 @import "./includes/modal.scss"
