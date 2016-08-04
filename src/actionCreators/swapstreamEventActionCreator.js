@@ -176,7 +176,7 @@ const DEBUG_connectStoreForBotId = (store, botId) => {
 let fakeSwapstreamEventsPromise = null;
 function loadFakeSwapstreamEvents() {
     // cached with low latency
-    let URL = 'https://cdn.rawgit.com/deweller/831ac52e4ecd6af78406a5ff55940c1b/raw/8ecb1aa3e332537cc82338f3906b75846bd03883/sample-swapstream-events-01.json';
+    let URL = 'https://cdn.rawgit.com/deweller/831ac52e4ecd6af78406a5ff55940c1b/raw/c753b5393c4773c4d7cc1029d736ddda70c16083/sample-swapstream-events-01.json';
 
     if (fakeSwapstreamEventsPromise == null) {
         fakeSwapstreamEventsPromise = new Promise((resolve, reject) => {
