@@ -33,9 +33,9 @@ const WatchProgressComponent = ({desiredSwap, bot, swap, goBack}) => {
                 <div className="msg">{swap.message}</div>
                 <div className="confirmations">This swap has { pluralize('confirmation', swap.confirmations == null ? 0 : swap.confirmations, true) } in and { pluralize('confirmation', swap.confirmationsOut == null ? 0 : swap.confirmationsOut, true) } out.</div>
             </div>
-        </div>
 
-        <EnterNotificationEmail/>
+            <EnterNotificationEmail/>
+        </div>
 
         <div className="embed-footer">
             <a onClick={() => { goBack(); }} className="btn-back">Go Back</a>

@@ -31,8 +31,10 @@ const EnterNotificationEmail = ({bot, uiState, swap, setEmail, sendEmail}) => {
                         </div>
                     ) : null}
 
-                    <div className="email-heading">Email Address</div>
-                    <input type="email" name="email" value={ uiState.email } onChange={ (e) => setEmail(e.target.value) } placeholder="me@myemailprovider.com" />
+                    <div className="input-group">
+                        <label>Email</label>
+                        <input type="email" name="email" value={ uiState.email } onChange={ (e) => setEmail(e.target.value) } placeholder="me@myemailprovider.com" />
+                    </div>
 
                     <div className="enter-email-submit">
                         <button className={ (uiState.isValidEmail && formIsActive) ? 'btn-success' : 'btn-disabled' } onClick={completeIfValid}>Send Email</button>
@@ -43,7 +45,7 @@ const EnterNotificationEmail = ({bot, uiState, swap, setEmail, sendEmail}) => {
 
             {isSubmitted ? /* email was submitted */ (
                 <div className="enter-email-form">
-                    <h4>Your Email Address was Received</h4>
+                    <h4>Your email address was received</h4>
                     <p>Thanks for using Swapbot, you&rsquo;ll receive an email soon with updates about your order.</p>
                 </div>
             ) : null}
