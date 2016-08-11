@@ -21,7 +21,7 @@ describe('swapbotApi' , () => {
             {clientId: 'client0001', inToken: 'BTC'},
             {clientId: 'client0001', outToken: 'TOKENLY', inToken: 'BTC'},
             {clientId: 'client0001', sort: 'cost'},
-            {clientId: 'client0001', userName: 'foobar'},
+            {clientId: 'client0001', username: 'foobar'},
             {clientId: 'client0001', botId: 'xxxxxxx'},
         ];
 
@@ -69,6 +69,44 @@ describe('swapbotApi' , () => {
         sinon.assert.calledWith(httpRequest, 'GET', 'http://foo.bar/api/v1/public/availableswaps', expectedQueryParams);
         httpRequest.reset();
     });
+
+    it('transforms whitelisted value to boolean integer', () => {
+        let queryParams = {clientId: 'client0001', whitelisted: false};
+        let expectedQueryParams = {clientId: 'client0001', whitelisted: '0'};
+        swapbotApi.loadSwaps(queryParams);
+        sinon.assert.calledWith(httpRequest, 'GET', 'http://foo.bar/api/v1/public/availableswaps', expectedQueryParams);
+        httpRequest.reset();
+
+        queryParams = {clientId: 'client0001', whitelisted: true};
+        expectedQueryParams = {clientId: 'client0001', whitelisted: '1'};
+        swapbotApi.loadSwaps(queryParams);
+        sinon.assert.calledWith(httpRequest, 'GET', 'http://foo.bar/api/v1/public/availableswaps', expectedQueryParams);
+        httpRequest.reset();
+    });
+
+    it('transforms an array of username to a comma separated list', () => {
+        // multiple items
+        let queryParams = {clientId: 'client0001', username: ['user1','user2']};
+        let expectedQueryParams = {clientId: 'client0001', username: 'user1,user2'};
+        swapbotApi.loadSwaps(queryParams);
+        sinon.assert.calledWith(httpRequest, 'GET', 'http://foo.bar/api/v1/public/availableswaps', expectedQueryParams);
+        httpRequest.reset();
+
+        // single item
+        queryParams = {clientId: 'client0001', username: ['user1']};
+        expectedQueryParams = {clientId: 'client0001', username: 'user1'};
+        swapbotApi.loadSwaps(queryParams);
+        sinon.assert.calledWith(httpRequest, 'GET', 'http://foo.bar/api/v1/public/availableswaps', expectedQueryParams);
+        httpRequest.reset();
+
+        // no array
+        queryParams = {clientId: 'client0001', username: 'user3'};
+        expectedQueryParams = {clientId: 'client0001', username: 'user3'};
+        swapbotApi.loadSwaps(queryParams);
+        sinon.assert.calledWith(httpRequest, 'GET', 'http://foo.bar/api/v1/public/availableswaps', expectedQueryParams);
+        httpRequest.reset();
+    });
+
 
     it('does not pass an invalid query var', () => {
         swapbotApi.loadSwaps({iAmSoInvalid: 'foo'});

@@ -16,12 +16,16 @@ swapbotApi.loadSwaps = function(parameters) {
     let filteredParameters = {}
     parameters = parameters || {};
 
-    for (var allowedOpt of ['clientId', 'inToken','outToken','sort','userName','botId']) {
+    for (var allowedOpt of ['clientId', 'inToken','outToken','sort','username','botId','whitelisted']) {
         if (parameters[allowedOpt] != null) {
             let value = parameters[allowedOpt];
 
             if (isArrayableParam(allowedOpt) && isArray(value)) {
                 value = arrayToArrayParamString(value);
+            }
+
+            if (isBooleanParam(allowedOpt)) {
+                value = (value ? '1' : '0');
             }
 
             filteredParameters[allowedOpt] = value;
@@ -108,11 +112,18 @@ swapbotApi.parseAPIResponse = function(res) {
 const arrayable = {
     botId:    true,
     inToken:  true,
-    outToken: true
+    outToken: true,
+    username: true,
 }
+const booleanParams = {
+    whitelisted: true,
+}
+
 const isArrayableParam = (param) => { return arrayable[param] != null; }
 const isArray = (value) => { return (value && Array === value.constructor); }
 const arrayToArrayParamString = (value) => { return value.join(','); }
+
+const isBooleanParam = (param) => { return booleanParams[param] != null; }
 
 // ------------------------------------------------------------------------
 
