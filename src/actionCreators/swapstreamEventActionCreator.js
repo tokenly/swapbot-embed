@@ -121,7 +121,7 @@ const disconnectStoreForBotId = (connectionInfo) => {
     }
 
     if (connectionInfo.pusherClient != null) {
-        connectionInfo.pusherClient.close();
+        pusher.close(connectionInfo.pusherClient);
     }
 }
 
