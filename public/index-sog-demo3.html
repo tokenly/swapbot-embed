@@ -11,7 +11,7 @@
 <body>
     <div class="container">
         <h1>Swapbot SDK Example</h1>
-        <p>This embedded swapbot interface loads all the swaps from multiple bots.</p>
+        <p>This embedded swapbot interface loads all the swaps for multiple tokens that are not whitelisted.</p>
     </div>
 
     <hr>
@@ -23,9 +23,7 @@
     <div class="swapbot-interface"></div>
 
     <script>
-    SwapbotAPI.init({
-        clientId: 'test'
-    });
+    SwapbotAPI.init({clientId: 'sog'});
 
     // load
     (function($) {
@@ -72,6 +70,7 @@
             'MAYALCARD',
             'MERCHANTCARD',
             'MINERCARD',
+            'NEMCARD',
             'RIPPLECARD',
             'RUBYCARD',
             'SADICARD',
@@ -86,6 +85,7 @@
             'SHOPKEEPERCD',
             'SHUMAICARD',
             'SJCXCARD',
+            'SORCERESSCD',
             'SWARMCD',
             'TALISMANCARD',
             'TROLLSCLUBCD',
@@ -106,6 +106,7 @@
 
         var promise = SwapbotAPI.getSwaps({
             outToken: outTokens,
+            whitelisted: false
         }, function(swaps) {
             SwapbotAPI.showSwapUI('.swapbot-interface', swaps, {});
         });
