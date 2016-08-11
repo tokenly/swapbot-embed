@@ -80,13 +80,24 @@ function renderUniqueOutTokenOptionsFromSwapObjects(swapObjects) {
     // render out tokens
     let anyFound = false;
     let usedTokensMap = {};
-    let newOptions = swapObjects.map((swapObject) => {
+    let newTokens = swapObjects.map((swapObject) => {
         let token = swapObject.swap.out;
         if (token != null && usedTokensMap[token] == null) {
+            // check balance
+            if (balanceIsEmpty(swapObject, token)) {
+                return;
+            }
+
             usedTokensMap[token] = true;
             anyFound = true;
-            return <option key={token} value={token}>{token}</option>
+            return token;
         }
+    })
+
+    newTokens.sort();
+    let newOptions = newTokens.map((token) => {
+        if (token == null) { return; }
+        return <option key={token} value={token}>{token}</option>
     })
 
     if (!anyFound ) { return noneAvailable(); }
@@ -99,19 +110,44 @@ function renderUniqueInTokenOptionsFromSwapObjectsForOutToken(swapObjects, chose
     // render out tokens
     let anyFound = false;
     let usedTokensMap = {};
-    let newOptions = swapObjects.map((swapObject) => {
+    let newTokens = swapObjects.map((swapObject) => {
         if (swapObject.swap.out == chosenOutToken) {
             let token = swapObject.swap.in;
+
+            // check balance
+            if (balanceIsEmpty(swapObject, chosenOutToken)) {
+                return;
+            }
+
             if (token != null && usedTokensMap[token] == null) {
                 usedTokensMap[token] = true;
                 anyFound = true;
-                return <option key={token} value={token}>{token}</option>
+                return token
             }
         }
     })
 
+    newTokens.sort();
+    let newOptions = newTokens.map((token) => {
+        if (token == null) { return; }
+        return <option key={token} value={token}>{token}</option>
+    })
+
+
     if (!anyFound ) { return noneAvailable(); }
     return newOptions;
+}
+
+function balanceIsEmpty(swapObject, token) {
+    return !balanceIsGreaterThanZero(swapObject, token);
+}
+function balanceIsGreaterThanZero(swapObject, token) {
+    // check balance
+    let balance = swapObject.bot.balances[token];
+    if (balance == null) {
+        return false;
+    }
+    return (balance > 0);
 }
 
 function noneAvailable() {
