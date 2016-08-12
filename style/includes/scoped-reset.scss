@@ -1,5 +1,14 @@
 .swapbot-embed {
+  all: revert;
+}
 
+.swapbot-embed {
+  * {
+    background: none;
+  }
+}
+
+.swapbot-embed {
   /*! normalize.css v4.1.1 | MIT License | github.com/necolas/normalize.css */
 
   /**
